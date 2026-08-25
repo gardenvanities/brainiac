@@ -13,7 +13,6 @@ use tracing_subscriber::EnvFilter;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    // Setup de logging
     tracing_subscriber::fmt()
         .with_env_filter(
             EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info")),
@@ -39,12 +38,19 @@ pub fn run() {
             });
 
             app.manage(db_state);
-
             info!("BRAINIAC inicializado.");
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            // Commands serão registrados aqui nos próximos passos
+            // Documents
+            commands::documents::create_document,
+            commands::documents::get_documents,
+            commands::documents::get_document,
+            commands::documents::save_document,
+            commands::documents::delete_document,
+            // Config
+            commands::config::get_config,
+            commands::config::save_config,
         ])
         .run(tauri::generate_context!())
         .expect("Erro ao executar BRAINIAC");
