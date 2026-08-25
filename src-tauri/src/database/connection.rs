@@ -20,8 +20,8 @@ impl DbState {
         let conn = db.connect()?;
 
         // Habilita WAL mode para melhor performance em leitura/escrita concorrente
-        conn.execute("PRAGMA journal_mode=WAL", ()).await?;
-        conn.execute("PRAGMA foreign_keys=ON", ()).await?;
+        conn.execute_batch("PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;")
+            .await?;
 
         // Roda migrations
         super::migrations::run(&conn).await?;

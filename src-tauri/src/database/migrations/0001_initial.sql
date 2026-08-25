@@ -133,6 +133,6 @@ INSERT OR IGNORE INTO agents (
     'Você é o BRAINIAC, um segundo cérebro pessoal e adaptativo. Você conhece profundamente o usuário e personaliza cada resposta com base no que aprendeu sobre ele. Seja direto, preciso e útil. Aprenda continuamente com cada interação.',
     'claude-sonnet-4-6',
     1, 1,
-    datetime(''now''),
-    datetime(''now'')
+    '2024-01-01T00:00:00Z',
+    '2024-01-01T00:00:00Z'
 );
