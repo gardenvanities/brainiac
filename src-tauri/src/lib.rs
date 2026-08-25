@@ -1,14 +1,51 @@
-// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+mod commands;
+mod database;
+mod error;
+mod filesystem;
+mod llm;
+mod memory;
+mod models;
+
+use database::DbState;
+use tauri::Manager;
+use tracing::info;
+use tracing_subscriber::EnvFilter;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // Setup de logging
+    tracing_subscriber::fmt()
+        .with_env_filter(
+            EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info")),
+        )
+        .init();
+
+    info!("Iniciando BRAINIAC...");
+
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet])
+        .plugin(tauri_plugin_store::Builder::default().build())
+        .setup(|app| {
+            let db_path = app
+                .path()
+                .app_data_dir()
+                .expect("Falha ao resolver app data dir")
+                .join("brainiac.db");
+
+            let db_state = tauri::async_runtime::block_on(async {
+                DbState::init(db_path)
+                    .await
+                    .expect("Falha ao inicializar banco de dados")
+            });
+
+            app.manage(db_state);
+
+            info!("BRAINIAC inicializado.");
+            Ok(())
+        })
+        .invoke_handler(tauri::generate_handler![
+            // Commands serão registrados aqui nos próximos passos
+        ])
         .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .expect("Erro ao executar BRAINIAC");
 }
