@@ -1,0 +1,57 @@
+<script lang="ts">
+  import type { Document } from "../../types";
+  import { documentsStore } from "../../stores/documents.store.svelte";
+
+  let { doc }: { doc: Document } = $props();
+
+  const isActive = $derived(documentsStore.active?.id === doc.id)
+
+  function open() {
+    documentsStore.open(doc.id);
+  }
+</script>
+
+<button class="file-item" class:active={isActive} onclick={open}>
+  <span class="file-icon">✦</span>
+  <span class="file-title">{doc.title}</span>
+</button>
+
+<style>
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    text-align: left;
+    transition: all 0.15s ease;
+  }
+
+  .file-item:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .file-item.active {
+    background: var(--accent-subtle);
+    color: var(--accent);
+  }
+
+  .file-icon {
+    font-size: 10px;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  .file-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

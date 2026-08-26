@@ -1,5 +1,38 @@
 <script lang="ts">
-let activeSection: "files" | "search" | "tags" = $state("files");
+  import { onMount } from "svelte";
+  import { documentsStore } from "../../stores/documents.store.svelte";
+  import FileTreeItem from "../sidebar-left/FileTreeItem.svelte";
+
+  let activeSection: "files" | "search" | "tags" = $state("files");
+  let creatingDoc = $state(false);
+  let newDocTitle = $state("");
+
+  onMount(() => {
+    documentsStore.loadList();
+  });
+
+  async function handleCreate() {
+    if (!newDocTitle.trim()) return;
+    await documentsStore.create(newDocTitle.trim());
+    newDocTitle = "";
+    creatingDoc = false;
+  }
+
+  function handleCreateKeydown(e: KeyboardEvent) {
+    if (e.key === "Enter") handleCreate();
+    if (e.key === "Escape") {
+      creatingDoc = false;
+      newDocTitle = "";
+    }
+  }
+
+  let inputRef = $state<HTMLInputElement | null>(null);
+
+  $effect(() => {
+    if (creatingDoc && inputRef) {
+      inputRef.focus();
+    }
+  });
 </script>
 
 <aside class="left-sidebar">
@@ -14,7 +47,7 @@ let activeSection: "files" | "search" | "tags" = $state("files");
       onclick={() => (activeSection = "files")}
       title="Arquivos"
     >
-      <span class="icon">󰈚</span>
+      ✦
     </button>
     <button
       class="nav-item"
@@ -22,7 +55,7 @@ let activeSection: "files" | "search" | "tags" = $state("files");
       onclick={() => (activeSection = "search")}
       title="Buscar"
     >
-      <span class="icon">󰍉</span>
+      ⌕
     </button>
     <button
       class="nav-item"
@@ -30,7 +63,7 @@ let activeSection: "files" | "search" | "tags" = $state("files");
       onclick={() => (activeSection = "tags")}
       title="Tags"
     >
-      <span class="icon">󰓹</span>
+      #
     </button>
   </nav>
 
@@ -38,11 +71,35 @@ let activeSection: "files" | "search" | "tags" = $state("files");
     {#if activeSection === "files"}
       <div class="section-header">
         <span class="section-title">Documentos</span>
-        <button class="icon-btn" title="Novo documento">+</button>
+        <button
+          class="icon-btn"
+          title="Novo documento"
+          onclick={() => (creatingDoc = true)}
+        >+</button>
       </div>
+
+      {#if creatingDoc}
+        <div class="new-doc-input">
+          <input
+            type="text"
+            placeholder="Nome do documento..."
+            bind:this={inputRef}
+            bind:value={newDocTitle}
+            onkeydown={handleCreateKeydown}
+          />
+        </div>
+      {/if}
+
       <div class="file-list">
-        <!-- FileTree será implementado no Passo 7 -->
-        <div class="placeholder-item">Nenhum documento ainda</div>
+          {#if documentsStore.listLoading}
+            <div class="placeholder-item">Carregando...</div>
+          {:else if documentsStore.list.length === 0}
+            <div class="placeholder-item">Nenhum documento ainda</div>
+          {:else}
+            {#each documentsStore.list as doc (doc.id)}
+              <FileTreeItem {doc} />
+            {/each}
+          {/if}
       </div>
     {/if}
 
@@ -62,9 +119,9 @@ let activeSection: "files" | "search" | "tags" = $state("files");
   </div>
 
   <div class="sidebar-footer">
-    <button class="footer-btn" title="Memórias">󰧑 Memórias</button>
-    <button class="footer-btn" title="Agentes">󰋦 Agentes</button>
-    <button class="footer-btn" title="Configurações">󰒓 Configurações</button>
+    <button class="footer-btn">⊕ Memórias</button>
+    <button class="footer-btn">⊕ Agentes</button>
+    <button class="footer-btn">⊕ Configurações</button>
   </div>
 </aside>
 
@@ -97,7 +154,7 @@ let activeSection: "files" | "search" | "tags" = $state("files");
   .sidebar-nav {
     display: flex;
     flex-direction: row;
-    padding: var(--space-2) var(--space-2);
+    padding: var(--space-2);
     gap: var(--space-1);
     border-bottom: 1px solid var(--border);
   }
@@ -137,7 +194,7 @@ let activeSection: "files" | "search" | "tags" = $state("files");
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--space-2) var(--space-2);
+    padding: var(--space-2);
     margin-bottom: var(--space-1);
   }
 
@@ -165,6 +222,22 @@ let activeSection: "files" | "search" | "tags" = $state("files");
     color: var(--text-primary);
   }
 
+  .new-doc-input {
+    padding: var(--space-1) var(--space-2);
+    margin-bottom: var(--space-1);
+  }
+
+  .new-doc-input input {
+    width: 100%;
+    background: var(--bg-elevated);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    padding: var(--space-2) var(--space-3);
+    outline: none;
+  }
+
   .search-input {
     width: 100%;
     background: var(--bg-elevated);
@@ -182,7 +255,7 @@ let activeSection: "files" | "search" | "tags" = $state("files");
   }
 
   .placeholder-item {
-    padding: var(--space-2) var(--space-2);
+    padding: var(--space-2);
     color: var(--text-muted);
     font-size: var(--font-size-sm);
     font-style: italic;

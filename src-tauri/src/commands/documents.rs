@@ -6,18 +6,33 @@ use crate::models::document::{
     CreateDocumentPayload, Document, DocumentWithContent, SaveDocumentPayload,
 };
 use chrono::Utc;
-use tauri::State;
+use tauri::{AppHandle, Manager, State};
 use uuid::Uuid;
+
+fn resolve_files_dir(app: &AppHandle) -> Result<std::path::PathBuf, AppError> {
+    let dir = app
+        .path()
+        .app_data_dir()
+        .map_err(|e| AppError::Internal(e.to_string()))?
+        .join("files");
+    std::fs::create_dir_all(&dir)?;
+    Ok(dir)
+}
 
 #[tauri::command]
 pub async fn create_document(
+    app: AppHandle,
     state: State<'_, DbState>,
     payload: CreateDocumentPayload,
 ) -> Result<Document, AppError> {
+    let files_dir = resolve_files_dir(&app)?;
+    let file_path = files_dir.join(format!("{}.md", payload.title.replace(' ', "_")));
+    let path_str = file_path.to_string_lossy().to_string();
+
+    filesystem::documents::write_file(&path_str, "")?;
+
     let now = Utc::now().to_rfc3339();
     let id = Uuid::new_v4().to_string();
-
-    filesystem::documents::write_file(&payload.path, "")?;
 
     let frontmatter = payload
         .frontmatter
@@ -26,7 +41,7 @@ pub async fn create_document(
 
     let doc = Document {
         id,
-        path: payload.path,
+        path: path_str,
         title: payload.title,
         frontmatter,
         word_count: 0,

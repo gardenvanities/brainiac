@@ -1,3 +1,6 @@
+// TODO: Remover quando a base do software estiver completa
+#![allow(unused)]
+
 mod commands;
 mod database;
 mod error;
