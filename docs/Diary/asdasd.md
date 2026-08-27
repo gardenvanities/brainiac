@@ -1,0 +1,1 @@
+Definir claramente qual é a arquitetura e o dominio do meu projeto.

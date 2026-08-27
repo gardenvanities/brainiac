@@ -1,38 +1,40 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { documentsStore } from "../../stores/documents.store.svelte";
-  import FileTreeItem from "../sidebar-left/FileTreeItem.svelte";
+import { onMount } from "svelte";
+import { documentsStore } from "../../stores/documents.store.svelte";
+import ProviderSetup from "../shared/ProviderSetup.svelte";
+import FileTreeItem from "../sidebar-left/FileTreeItem.svelte";
 
-  let activeSection: "files" | "search" | "tags" = $state("files");
-  let creatingDoc = $state(false);
-  let newDocTitle = $state("");
+let activeSection: "files" | "search" | "tags" = $state("files");
+let creatingDoc = $state(false);
+let newDocTitle = $state("");
+let showSettings = $state(false);
 
-  onMount(() => {
-    documentsStore.loadList();
-  });
+onMount(() => {
+  documentsStore.loadList();
+});
 
-  async function handleCreate() {
-    if (!newDocTitle.trim()) return;
-    await documentsStore.create(newDocTitle.trim());
-    newDocTitle = "";
+async function handleCreate() {
+  if (!newDocTitle.trim()) return;
+  await documentsStore.create(newDocTitle.trim());
+  newDocTitle = "";
+  creatingDoc = false;
+}
+
+function handleCreateKeydown(e: KeyboardEvent) {
+  if (e.key === "Enter") handleCreate();
+  if (e.key === "Escape") {
     creatingDoc = false;
+    newDocTitle = "";
   }
+}
 
-  function handleCreateKeydown(e: KeyboardEvent) {
-    if (e.key === "Enter") handleCreate();
-    if (e.key === "Escape") {
-      creatingDoc = false;
-      newDocTitle = "";
-    }
+let inputRef = $state<HTMLInputElement | null>(null);
+
+$effect(() => {
+  if (creatingDoc && inputRef) {
+    inputRef.focus();
   }
-
-  let inputRef = $state<HTMLInputElement | null>(null);
-
-  $effect(() => {
-    if (creatingDoc && inputRef) {
-      inputRef.focus();
-    }
-  });
+});
 </script>
 
 <aside class="left-sidebar">
@@ -121,9 +123,30 @@
   <div class="sidebar-footer">
     <button class="footer-btn">⊕ Memórias</button>
     <button class="footer-btn">⊕ Agentes</button>
-    <button class="footer-btn">⊕ Configurações</button>
+    <button class="footer-btn" onclick={() => (showSettings = !showSettings)}>
+      ⊕ Configurações
+    </button>
   </div>
 </aside>
+
+{#if showSettings}
+  <div
+    class="modal-backdrop"
+    role="presentation"
+    onclick={() => (showSettings = false)}
+    onkeydown={(e) => e.key === "Escape" && (showSettings = false)}
+  >
+    <div class="modal" role="dialog" aria-label="Configurações" onclick={(e) => e.stopPropagation()}>
+      <div class="modal-header">
+        <span class="modal-title">Configurações</span>
+        <button class="modal-close" title="Fechar" onclick={() => (showSettings = false)}>✕</button>
+      </div>
+      <div class="modal-body">
+        <ProviderSetup />
+      </div>
+    </div>
+  </div>
+{/if}
 
 <style>
   .left-sidebar {
@@ -287,5 +310,63 @@
   .footer-btn:hover {
     background: var(--bg-hover);
     color: var(--text-primary);
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+  }
+
+  .modal {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .modal-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .modal-close {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    padding: var(--space-1) var(--space-2);
+    transition: all 0.15s ease;
+  }
+
+  .modal-close:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .modal-body {
+    overflow-y: auto;
   }
 </style>

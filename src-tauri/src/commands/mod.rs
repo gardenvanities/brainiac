@@ -5,3 +5,4 @@ pub mod documents;
 pub mod llm;
 pub mod memories;
 pub mod messages;
+pub mod providers;

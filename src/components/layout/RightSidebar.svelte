@@ -1,18 +1,17 @@
 <script lang="ts">
-let message = $state("");
+  import { onMount } from "svelte";
+  import ChatMessages from "../chat/ChatMessages.svelte";
+  import ChatInput from "../chat/ChatInput.svelte";
+  import { messagesStore } from "../../stores/messages.store.svelte";
 
-function handleKeydown(e: KeyboardEvent) {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-}
-
-function sendMessage() {
-  if (!message.trim()) return;
-  // Lógica de envio será implementada no Passo 8
-  message = "";
-}
+  onMount(() => {
+    let unlisteners: (() => void)[] = [];
+    messagesStore.setupListeners().then((uns) => {
+      unlisteners = uns;
+    });
+    messagesStore.loadConversation();
+    return () => unlisteners.forEach((un) => un());
+  });
 </script>
 
 <aside class="right-sidebar">
@@ -31,33 +30,9 @@ function sendMessage() {
     <span class="context-label">󰈙 Sem documento aberto</span>
   </div>
 
-  <div class="messages-area">
-    <!-- ChatMessages será implementado no Passo 8 -->
-    <div class="empty-state">
-      <p>Olá! Como posso te ajudar hoje?</p>
-    </div>
-  </div>
+  <ChatMessages />
 
-  <div class="input-area">
-    <textarea
-      class="message-input"
-      placeholder="Mensagem para o BRAINIAC..."
-      rows="3"
-      bind:value={message}
-      onkeydown={handleKeydown}
-    ></textarea>
-    <div class="input-footer">
-      <span class="hint">Enter para enviar · Shift+Enter para quebrar linha</span>
-      <button
-        class="send-btn"
-        class:active={message.trim().length > 0}
-        onclick={sendMessage}
-        disabled={!message.trim()}
-      >
-        Enviar
-      </button>
-    </div>
-  </div>
+  <ChatInput />
 </aside>
 
 <style>
@@ -144,88 +119,5 @@ function sendMessage() {
   .context-label {
     font-size: var(--font-size-xs);
     color: var(--text-muted);
-  }
-
-  .messages-area {
-    flex: 1;
-    overflow-y: auto;
-    padding: var(--space-4) var(--space-3);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .empty-state {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: var(--text-muted);
-    font-size: var(--font-size-sm);
-    font-style: italic;
-    text-align: center;
-  }
-
-  .input-area {
-    padding: var(--space-3);
-    border-top: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-
-  .message-input {
-    width: 100%;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-primary);
-    font-size: var(--font-size-sm);
-    font-family: var(--font-sans);
-    padding: var(--space-3);
-    resize: none;
-    outline: none;
-    line-height: 1.5;
-    transition: border-color 0.15s ease;
-  }
-
-  .message-input:focus {
-    border-color: var(--accent);
-  }
-
-  .message-input::placeholder {
-    color: var(--text-muted);
-  }
-
-  .input-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: var(--space-2);
-  }
-
-  .hint {
-    font-size: var(--font-size-xs);
-    color: var(--text-muted);
-  }
-
-  .send-btn {
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: var(--font-size-sm);
-    padding: var(--space-1) var(--space-4);
-    transition: all 0.15s ease;
-  }
-
-  .send-btn.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: white;
-  }
-
-  .send-btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
   }
 </style>

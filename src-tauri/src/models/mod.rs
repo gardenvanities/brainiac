@@ -4,6 +4,7 @@ pub mod conversation;
 pub mod document;
 pub mod memory;
 pub mod message;
+pub mod provider;
 
 pub use agent::Agent;
 pub use config::AppConfig;

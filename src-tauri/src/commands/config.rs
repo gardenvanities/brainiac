@@ -27,10 +27,36 @@ pub async fn save_config(app: AppHandle, config: AppConfig) -> Result<AppConfig,
         .map_err(|e| AppError::Internal(e.to_string()))?;
 
     store.set(CONFIG_KEY, serde_json::to_value(&config)?);
-
     store
         .save()
         .map_err(|e| AppError::Internal(e.to_string()))?;
 
     Ok(config)
+}
+
+#[tauri::command]
+pub async fn save_api_key(app: AppHandle, api_key: String) -> Result<(), AppError> {
+    let store = app
+        .store(STORE_FILE)
+        .map_err(|e| AppError::Internal(e.to_string()))?;
+
+    store.set("groq_api_key", serde_json::Value::String(api_key));
+    store
+        .save()
+        .map_err(|e| AppError::Internal(e.to_string()))?;
+
+    Ok(())
+}
+
+#[tauri::command]
+pub async fn get_api_key(app: AppHandle) -> Result<Option<String>, AppError> {
+    let store = app
+        .store(STORE_FILE)
+        .map_err(|e| AppError::Internal(e.to_string()))?;
+
+    let key = store
+        .get("groq_api_key")
+        .and_then(|v| v.as_str().map(|s| s.to_string()));
+
+    Ok(key)
 }

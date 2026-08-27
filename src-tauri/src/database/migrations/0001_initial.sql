@@ -107,8 +107,37 @@ CREATE TABLE IF NOT EXISTS llm_usage_log (
 );
 
 -- ================================================================
+-- LLM PROVIDERS
+-- Provedores de modelos de IA (Groq, Anthropic, etc.)
+-- ================================================================
+CREATE TABLE IF NOT EXISTS llm_providers (
+    id           TEXT PRIMARY KEY,
+    name         TEXT NOT NULL,
+    base_url     TEXT NOT NULL,
+    api_key      TEXT NOT NULL,
+    is_active    INTEGER NOT NULL DEFAULT 1,
+    created_at   TEXT NOT NULL,
+    updated_at   TEXT NOT NULL
+);
+
+-- ================================================================
+-- LLM MODELS
+-- Modelos disponíveis por provedor
+-- ================================================================
+CREATE TABLE IF NOT EXISTS llm_models (
+    id          TEXT PRIMARY KEY,
+    provider_id TEXT NOT NULL,
+    model_id    TEXT NOT NULL,
+    name        TEXT NOT NULL,
+    is_default  INTEGER NOT NULL DEFAULT 0,
+    created_at  TEXT NOT NULL,
+    FOREIGN KEY (provider_id) REFERENCES llm_providers(id)
+);
+
+-- ================================================================
 -- INDEXES
 -- ================================================================
+CREATE INDEX IF NOT EXISTS idx_llm_models_provider    ON llm_models(provider_id);
 CREATE INDEX IF NOT EXISTS idx_conversations_agent    ON conversations (agent_id);
 CREATE INDEX IF NOT EXISTS idx_conversations_document ON conversations (document_id);
 CREATE INDEX IF NOT EXISTS idx_messages_conversation  ON messages (conversation_id);

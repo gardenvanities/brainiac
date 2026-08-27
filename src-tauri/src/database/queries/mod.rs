@@ -4,3 +4,4 @@ pub mod documents;
 pub mod llm_usage;
 pub mod memories;
 pub mod messages;
+pub mod providers;
