@@ -1,18 +1,17 @@
 <script lang="ts">
-  import { messagesStore } from "../../stores/messages.store.svelte";
-  import ChatMessage from "./ChatMessage.svelte";
-  import type { Message } from "../../types";
+import { messagesStore } from "../../stores/messages.store.svelte";
+import ChatMessage from "./ChatMessage.svelte";
 
-  let containerRef = $state<HTMLDivElement | null>(null);
+let containerRef = $state<HTMLDivElement | null>(null);
 
-  // Auto-scroll para o final quando nova mensagem chegar
-  $effect(() => {
-    const _ = messagesStore.messages.length;
-    const __ = messagesStore.streamingContent;
-    if (containerRef) {
-      containerRef.scrollTop = containerRef.scrollHeight;
-    }
-  });
+// Auto-scroll para o final quando nova mensagem chegar
+$effect(() => {
+  const _ = messagesStore.messages.length;
+  const __ = messagesStore.streamingContent;
+  if (containerRef) {
+    containerRef.scrollTop = containerRef.scrollHeight;
+  }
+});
 </script>
 
 <div class="messages-container" bind:this={containerRef}>
@@ -29,14 +28,14 @@
       <ChatMessage
         message={{
           id: "streaming",
-          conversation_id: messagesStore.conversation?.id ?? "",
+          conversationId: messagesStore.conversation?.id ?? "",
           role: "assistant",
           content: messagesStore.streamingContent,
-          model_used: null,
-          tokens_input: null,
-          tokens_output: null,
-          created_at: "",
-        } as Message}
+          modelUsed: null,
+          tokensInput: null,
+          tokensOutput: null,
+          createdAt: "",
+        }}
         streaming={true}
       />
     {/if}

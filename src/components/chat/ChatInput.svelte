@@ -1,44 +1,42 @@
 <script lang="ts">
-  import { messagesStore } from "../../stores/messages.store.svelte";
-  import { documentsStore } from "../../stores/documents.store.svelte";
-  import { saveApiKey } from "../../lib/tauri/messages";
+import { saveApiKey } from "../../lib/tauri/messages";
+import { documentsStore } from "../../stores/documents.store.svelte";
+import { messagesStore } from "../../stores/messages.store.svelte";
 
-  $effect(() => {
-    console.log("hasApiKey:", messagesStore.hasApiKey);
-  });
+$effect(() => {
+  console.log("hasApiKey:", messagesStore.hasApiKey);
+});
 
-  let message = $state("");
-  let apiKeyInput = $state("");
-  let showApiKeyForm = $state(false);
+let message = $state("");
+let apiKeyInput = $state("");
+let showApiKeyForm = $state(false);
 
-  const canSend = $derived(
-    message.trim().length > 0 &&
-    !messagesStore.isStreaming &&
-    messagesStore.hasApiKey
-  );
+const canSend = $derived(
+  message.trim().length > 0 && !messagesStore.isStreaming && messagesStore.hasApiKey,
+);
 
-  async function handleSend() {
-    if (!canSend) return;
-    const content = message.trim();
-    message = "";
-    const context = documentsStore.active?.content;
-    await messagesStore.send(content, context);
+async function handleSend() {
+  if (!canSend) return;
+  const content = message.trim();
+  message = "";
+  const context = documentsStore.active?.content;
+  await messagesStore.send(content, context);
+}
+
+async function handleSaveApiKey() {
+  if (!apiKeyInput.trim()) return;
+  await saveApiKey(apiKeyInput.trim());
+  apiKeyInput = "";
+  showApiKeyForm = false;
+  await messagesStore.checkApiKey();
+}
+
+function handleKeydown(e: KeyboardEvent) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    handleSend();
   }
-
-  async function handleSaveApiKey() {
-    if (!apiKeyInput.trim()) return;
-    await saveApiKey(apiKeyInput.trim());
-    apiKeyInput = "";
-    showApiKeyForm = false;
-    await messagesStore.checkApiKey();
-  }
-
-  function handleKeydown(e: KeyboardEvent) {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  }
+}
 </script>
 
 <div class="input-area">

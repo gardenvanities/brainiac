@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { Message } from "../../types";
+import type { Message } from "../../types";
 
-  let { message, streaming = false }: { message?: Message; streaming?: boolean } = $props();
+let { message, streaming = false }: { message?: Message; streaming?: boolean } = $props();
 
-  const isUser = $derived(message?.role === "user");
-  const content = $derived(message?.content ?? "");
+const isUser = $derived(message?.role === "user");
+const content = $derived(message?.content ?? "");
 </script>
 
 <div class="message" class:user={isUser} class:assistant={!isUser}>

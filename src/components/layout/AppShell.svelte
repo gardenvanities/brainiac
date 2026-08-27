@@ -1,7 +1,7 @@
 <script lang="ts">
 import { uiStore } from "../../stores/ui.store.svelte";
-import LeftSidebar from "./LeftSidebar.svelte";
 import CenterPanel from "./CenterPanel.svelte";
+import LeftSidebar from "./LeftSidebar.svelte";
 import RightSidebar from "./RightSidebar.svelte";
 
 let dragging: "left" | "right" | null = $state(null);

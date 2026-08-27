@@ -1,5 +1,10 @@
-import { getDocuments, getDocument, createDocument, saveDocument } from "../lib/tauri/documents";
-import type { Document, DocumentWithContent, CreateDocumentPayload, SaveDocumentPayload } from "../types";
+import { createDocument, getDocument, getDocuments, saveDocument } from "../lib/tauri/documents";
+import type {
+  CreateDocumentPayload,
+  Document,
+  DocumentWithContent,
+  SaveDocumentPayload,
+} from "../types";
 
 class DocumentsStore {
   list = $state<Document[]>([]);

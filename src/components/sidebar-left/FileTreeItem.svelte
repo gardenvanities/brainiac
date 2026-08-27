@@ -1,14 +1,14 @@
 <script lang="ts">
-  import type { Document } from "../../types";
-  import { documentsStore } from "../../stores/documents.store.svelte";
+import { documentsStore } from "../../stores/documents.store.svelte";
+import type { Document } from "../../types";
 
-  let { doc }: { doc: Document } = $props();
+let { doc }: { doc: Document } = $props();
 
-  const isActive = $derived(documentsStore.active?.id === doc.id)
+const isActive = $derived(documentsStore.active?.id === doc.id);
 
-  function open() {
-    documentsStore.open(doc.id);
-  }
+function open() {
+  documentsStore.open(doc.id);
+}
 </script>
 
 <button class="file-item" class:active={isActive} onclick={open}>

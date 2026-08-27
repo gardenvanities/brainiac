@@ -1,8 +1,8 @@
 import { invoke } from "@tauri-apps/api/core";
 import type {
+  CreateDocumentPayload,
   Document,
   DocumentWithContent,
-  CreateDocumentPayload,
   SaveDocumentPayload,
 } from "../../types";
 

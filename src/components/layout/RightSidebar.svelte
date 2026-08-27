@@ -1,17 +1,19 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import ChatMessages from "../chat/ChatMessages.svelte";
-  import ChatInput from "../chat/ChatInput.svelte";
-  import { messagesStore } from "../../stores/messages.store.svelte";
+import { onMount } from "svelte";
+import { messagesStore } from "../../stores/messages.store.svelte";
+import ChatInput from "../chat/ChatInput.svelte";
+import ChatMessages from "../chat/ChatMessages.svelte";
 
-  onMount(() => {
-    let unlisteners: (() => void)[] = [];
-    messagesStore.setupListeners().then((uns) => {
-      unlisteners = uns;
-    });
-    messagesStore.loadConversation();
-    return () => unlisteners.forEach((un) => un());
+onMount(() => {
+  let unlisteners: (() => void)[] = [];
+  messagesStore.setupListeners().then((uns) => {
+    unlisteners = uns;
   });
+  messagesStore.loadConversation();
+  return () => {
+    for (const un of unlisteners) un();
+  };
+});
 </script>
 
 <aside class="right-sidebar">

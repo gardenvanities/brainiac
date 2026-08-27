@@ -1,6 +1,6 @@
 import { listen, type UnlistenFn } from "@tauri-apps/api/event";
-import { getOrCreateConversation, getConversationMessages } from "../lib/tauri/conversations";
-import { sendMessage, getApiKey } from "../lib/tauri/messages";
+import { getConversationMessages, getOrCreateConversation } from "../lib/tauri/conversations";
+import { getApiKey, sendMessage } from "../lib/tauri/messages";
 import type { Conversation, Message } from "../types";
 
 class MessagesStore {
@@ -57,27 +57,21 @@ class MessagesStore {
     const unlisteners: UnlistenFn[] = [];
 
     unlisteners.push(
-      await listen<{ conversation_id: string; content: string }>(
-        "message_chunk",
-        (event) => {
-          if (event.payload.conversation_id === this.conversation?.id) {
-            this.streamingContent += event.payload.content;
-          }
-        },
-      ),
+      await listen<{ conversation_id: string; content: string }>("message_chunk", (event) => {
+        if (event.payload.conversation_id === this.conversation?.id) {
+          this.streamingContent += event.payload.content;
+        }
+      }),
     );
 
     unlisteners.push(
-      await listen<{ conversation_id: string; message: Message }>(
-        "message_done",
-        (event) => {
-          if (event.payload.conversation_id === this.conversation?.id) {
-            this.messages = [...this.messages, event.payload.message];
-            this.streamingContent = "";
-            this.isStreaming = false;
-          }
-        },
-      ),
+      await listen<{ conversation_id: string; message: Message }>("message_done", (event) => {
+        if (event.payload.conversation_id === this.conversation?.id) {
+          this.messages = [...this.messages, event.payload.message];
+          this.streamingContent = "";
+          this.isStreaming = false;
+        }
+      }),
     );
 
     unlisteners.push(

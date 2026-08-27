@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { documentsStore } from "../../stores/documents.store.svelte";
-  import Editor from "../editor/Editor.svelte";
+import { documentsStore } from "../../stores/documents.store.svelte";
+import Editor from "../editor/Editor.svelte";
 </script>
 
 <main class="center-panel">

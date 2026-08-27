@@ -1,77 +1,77 @@
 <script lang="ts">
-  import { untrack } from "svelte";
-  import { Crepe } from "@milkdown/crepe";
-  import "@milkdown/crepe/theme/common/style.css";
-  import "@milkdown/crepe/theme/frame.css";
-  import { documentsStore } from "../../stores/documents.store.svelte";
+import { Crepe } from "@milkdown/crepe";
+import { untrack } from "svelte";
+import "@milkdown/crepe/theme/common/style.css";
+import "@milkdown/crepe/theme/frame.css";
+import { documentsStore } from "../../stores/documents.store.svelte";
 
-  let editorRef = $state<HTMLDivElement | null>(null);
-  let saveTimer: ReturnType<typeof setTimeout> | null = null;
-  let isInitializing = false;
+let editorRef = $state<HTMLDivElement | null>(null);
+let saveTimer: ReturnType<typeof setTimeout> | null = null;
+let isInitializing = false;
 
-  function scheduleAutoSave(crepe: Crepe) {
-    if (saveTimer) clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => {
-      if (!isInitializing && documentsStore.active) {
-        const content = crepe.getMarkdown();
-        documentsStore.updateContent(content);
-        documentsStore.save(content);
-      }
-    }, 1000);
+function scheduleAutoSave(crepe: Crepe) {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    if (!isInitializing && documentsStore.active) {
+      const content = crepe.getMarkdown();
+      documentsStore.updateContent(content);
+      documentsStore.save(content);
+    }
+  }, 1000);
+}
+
+$effect(() => {
+  if (!editorRef) return;
+
+  // Rastreia APENAS o ID — mudança de conteúdo não recria o editor
+  const docId = documentsStore.active?.id;
+
+  // Lê o conteúdo sem rastrear (untrack = não cria dependência reativa)
+  const content = untrack(() => documentsStore.active?.content ?? "");
+
+  if (saveTimer) clearTimeout(saveTimer);
+  isInitializing = true;
+  editorRef.innerHTML = "";
+
+  if (!docId) {
+    isInitializing = false;
+    return;
   }
 
-  $effect(() => {
-    if (!editorRef) return;
-
-    // Rastreia APENAS o ID — mudança de conteúdo não recria o editor
-    const docId = documentsStore.active?.id;
-
-    // Lê o conteúdo sem rastrear (untrack = não cria dependência reativa)
-    const content = untrack(() => documentsStore.active?.content ?? "");
-
-    if (saveTimer) clearTimeout(saveTimer);
-    isInitializing = true;
-    editorRef.innerHTML = "";
-
-    if (!docId) {
-      isInitializing = false;
-      return;
-    }
-
-    const crepe = new Crepe({
-      root: editorRef,
-      defaultValue: content,
-    });
-
-    let observer: MutationObserver | null = null;
-
-    crepe.create().then(() => {
-      isInitializing = false;
-
-      const prosemirror = editorRef?.querySelector(".ProseMirror");
-      if (prosemirror) {
-        observer = new MutationObserver(() => {
-          if (!isInitializing) {
-            const markdown = crepe.getMarkdown();
-            documentsStore.updateContent(markdown);
-            scheduleAutoSave(crepe);
-          }
-        });
-
-        observer.observe(prosemirror, {
-          childList: true,
-          subtree: true,
-          characterData: true,
-        });
-      }
-    });
-
-    return () => {
-      if (saveTimer) clearTimeout(saveTimer);
-      observer?.disconnect();
-      crepe.destroy();
-    };
+  const crepe = new Crepe({
+    root: editorRef,
+    defaultValue: content,
   });
+
+  let observer: MutationObserver | null = null;
+
+  crepe.create().then(() => {
+    isInitializing = false;
+
+    const prosemirror = editorRef?.querySelector(".ProseMirror");
+    if (prosemirror) {
+      observer = new MutationObserver(() => {
+        if (!isInitializing) {
+          const markdown = crepe.getMarkdown();
+          documentsStore.updateContent(markdown);
+          scheduleAutoSave(crepe);
+        }
+      });
+
+      observer.observe(prosemirror, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+      });
+    }
+  });
+
+  return () => {
+    if (saveTimer) clearTimeout(saveTimer);
+    observer?.disconnect();
+    crepe.destroy();
+  };
+});
 </script>
 
 <div class="editor-wrapper">
