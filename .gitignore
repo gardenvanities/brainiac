@@ -17,3 +17,8 @@ vite.config.ts.timestamp-*
 
 # Rust
 src-tauri/target/
+
+# Database
+*.db
+*.db-wal
+*.db-shm
