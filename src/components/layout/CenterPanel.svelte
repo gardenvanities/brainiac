@@ -37,7 +37,7 @@ import InlineTitle from "../editor/InlineTitle.svelte";
     align-items: center;
     padding: 0 var(--space-4);
     height: 48px;
-    border-bottom: 1px solid var(--color-border-default);
+    border-bottom: 1px solid var(--color-border-subtle);
     background: var(--color-bg-surface);
     flex-shrink: 0;
   }
