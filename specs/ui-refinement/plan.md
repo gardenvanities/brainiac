@@ -21,8 +21,9 @@ Tudo se concentra no frontend (`src/`). Sem alteração em backend, schema, coma
 | `src/stores/ui.store.svelte.ts` | Adicionar `toggleLeft()`, `toggleRight()`, `toggleFocus()`; remover `activeDocumentId`/`activeAgentId` (sem consumidores). |
 | `src/lib/utils/keyboard.ts` *(novo)* | Helper puro `isShortcut(e, combo)` para normalizar Cmd/Ctrl+tecla. Testável por Vitest. |
 | `src/components/layout/AppShell.svelte` | Reagir ao `uiStore.sidebarLeftOpen/RightOpen` (colunas vão a 0); handlers globais de atalho via `$effect` + cleanup; ocultar handles quando a sidebar correspondente está fechada; remover `border-right/left` dos asides (sai daqui também a migração visual das bordas, vide §6). |
-| `src/components/layout/LeftSidebar.svelte` | Reduzir nav (apenas seção "Arquivos"); footer fica só com botão de Configurações; modal de settings mantém-se aqui. |
-| `src/components/layout/RightSidebar.svelte` | Header mostra apenas o nome da aplicação; remover botão `+` inerte; banner de contexto vira reativo (`{#if documentsStore.active}`); remover modelo hardcoded. |
+| `src/components/layout/LeftSidebar.svelte` | Reduzir nav (apenas seção "Arquivos"); footer fica só com botão de Configurações; remover logo `⬡ BRAINIAC` (fica só ícone mínimo); modal de settings mantém-se aqui. |
+| `src/components/layout/RightSidebar.svelte` | Header mostra o modelo real quando útil (via conversation) e remove botão `+` inerte; banner de contexto reativo (via `messagesStore.conversation.documentId`) e condicional; remover modelo hardcoded. |
+| `src/components/layout/CenterPanel.svelte` | Remover breadcrumb filename + word count permanente (toolbar duplicava o `InlineTitle`); toolbar ganha affordance discreto de info (popover de word count sob hover). |
 | `src/components/chat/ChatMessages.svelte` | (Sem mudança funcional; pode exigir micro-ajuste se o banner saiu do parent e o `flex:1` precisa absorver). |
 | `src/stores/messages.store.svelte.ts` | Remover `console.log` de `checkApiKey`. |
 | `tests/frontend/keyboard.test.ts` *(novo)* | Cobre `isShortcut` para Mac/Win/Linux e teclas modificadoras. |
@@ -109,8 +110,8 @@ $effect(() => {
 
 ### `RightSidebar.svelte`
 
-- Remover bloco `.agent-info` (avatar + nome + modelo). Header fica com o nome do app "BRAINIAC" discreto à esquerda (já é o que está, mas sem o meta redundante); botão `+` removido por completo.
-- `.context-banner` vira `{#if documentsStore.active}` com o nome real do documento (`resolveInlineTitle` já existe em `src/lib/utils/documents.ts`).
+- Remover bloco `.agent-info` (avatar + nome + modelo); header fica mínimo — identificação do modelo/agente quando útil, via `messagesStore.conversation.modelUsed` (fonte real da conversa ativa), sem nome "BRAINIAC" redundante. Botão `+` removido por completo.
+- `.context-banner` vira reativo pela **conversa da IA** (`messagesStore.conversation.documentId`), não pelo documento aberto no editor: mostra o nome real do documento em contexto quando existe um `documentId` válido; sem contexto → banner ausente (sem faixa vazia) ou "Sem contexto" compacto.
 - O `+` remover é seguro porque não tem consumidor e o spec define "removido nesta iteração".
 
 ---
@@ -169,7 +170,7 @@ Mapeamento direto dos 8 critérios de aceite do `spec.md` para o que será execu
 
 1–3 (alternância por teclado) → `$effect` global + toggle de flags no `uiStore`.
 4 (sem chrome morto) → edição de LeftSidebar/RightSidebar.
-5 (banner contextual) → `{#if documentsStore.active}` + `resolveInlineTitle`.
+5 (banner contextual) → `messagesStore.conversation.documentId` + `resolveInlineTitle` (não `documentsStore.active` — contexto real da conversa da IA).
 6 (separação única) → remover `border-right/left`, ajustar `--resize-handle` em repouso.
 7 (drag continua quando aberta) → handle `hidden={!open}`; drag intacto no estado aberto.
 8 (sem regressão de conteúdo) → verificação end-to-end por agent-browser (criar doc, editar, autosave, enviar mensagem).

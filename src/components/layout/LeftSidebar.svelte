@@ -34,11 +34,29 @@ $effect(() => {
     inputRef.focus();
   }
 });
+
+// Move o foco para dentro do diálogo ao abrir — o teclado começa nele
+// (o backdrop sozinho só captura keydown quando o foco está dentro dele)
+let modalRef = $state<HTMLDivElement | null>(null);
+
+$effect(() => {
+  if (showSettings && modalRef) {
+    modalRef.focus();
+  }
+});
 </script>
+
+<!-- Escape fecha o modal a partir de qualquer foco (o backdrop sozinho
+     só captura o evento se o foco estiver dentro dele) -->
+<svelte:window
+  onkeydown={(e) => {
+    if (showSettings && e.key === "Escape") showSettings = false;
+  }}
+/>
 
 <aside class="left-sidebar">
   <div class="sidebar-header" data-tauri-drag-region>
-    <span class="logo">⬡ BRAINIAC</span>
+    <span class="logo" aria-label="BRAINIAC" title="BRAINIAC">⬡</span>
     <button
       class="icon-btn"
       title="Novo documento"
@@ -84,13 +102,24 @@ $effect(() => {
 </aside>
 
 {#if showSettings}
+  <!-- Só fecha quando o clique é no próprio backdrop (target === currentTarget):
+       cliques dentro do diálogo não borram para o fechamento -->
   <div
     class="modal-backdrop"
     role="presentation"
-    onclick={() => (showSettings = false)}
+    onclick={(e) => {
+      if (e.target === e.currentTarget) showSettings = false;
+    }}
     onkeydown={(e) => e.key === "Escape" && (showSettings = false)}
   >
-    <div class="modal" role="dialog" aria-label="Configurações" onclick={(e) => e.stopPropagation()}>
+    <div
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Configurações"
+      tabindex="-1"
+      bind:this={modalRef}
+    >
       <div class="modal-header">
         <span class="modal-title">Configurações</span>
         <button class="modal-close" title="Fechar" onclick={() => (showSettings = false)}>✕</button>
@@ -122,11 +151,8 @@ $effect(() => {
   }
 
   .logo {
-    font-size: var(--font-size-sm);
-    font-weight: 600;
+    font-size: var(--font-size-md);
     color: var(--color-accent-primary);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     /* Cliques no texto caem no header (drag region) em vez de virarem alvo próprio */
     pointer-events: none;
   }

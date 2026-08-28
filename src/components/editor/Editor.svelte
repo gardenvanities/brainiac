@@ -79,7 +79,6 @@ $effect(() => {
     <div class="editor-container" bind:this={editorRef}></div>
   {:else}
     <div class="editor-placeholder">
-      <span class="placeholder-icon">✦</span>
       <p>Selecione ou crie um documento para começar</p>
     </div>
   {/if}
@@ -156,13 +155,7 @@ $effect(() => {
     align-items: center;
     justify-content: center;
     height: 100%;
-    gap: var(--space-3);
     color: var(--color-text-muted);
-  }
-
-  .placeholder-icon {
-    font-size: 32px;
-    opacity: 0.3;
   }
 
   .editor-placeholder p {

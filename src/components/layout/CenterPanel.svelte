@@ -1,5 +1,4 @@
 <script lang="ts">
-import { fileDisplayName } from "../../lib/utils/documents";
 import { documentsStore } from "../../stores/documents.store.svelte";
 import Editor from "../editor/Editor.svelte";
 import InlineTitle from "../editor/InlineTitle.svelte";
@@ -7,14 +6,14 @@ import InlineTitle from "../editor/InlineTitle.svelte";
 
 <main class="center-panel">
   <div class="panel-toolbar" data-tauri-drag-region>
-    <div class="doc-breadcrumb">
-      {#if documentsStore.active}
-        <span class="breadcrumb-item">{fileDisplayName(documentsStore.active.path)}</span>
-        <span class="word-count">{documentsStore.active.word_count} palavras</span>
-      {:else}
-        <span class="breadcrumb-item muted">Selecione um documento</span>
-      {/if}
-    </div>
+    {#if documentsStore.active}
+      <span class="word-count-info" aria-label="{documentsStore.active.word_count} palavras">
+        <span class="info-glyph" aria-hidden="true">ℹ</span>
+        <span class="word-count-tooltip" aria-hidden="true"
+          >{documentsStore.active.word_count} palavras</span
+        >
+      </span>
+    {/if}
   </div>
 
   <div class="editor-area">
@@ -35,36 +34,49 @@ import InlineTitle from "../editor/InlineTitle.svelte";
   .panel-toolbar {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     padding: 0 var(--space-4);
-    height: 48px;
-    border-bottom: 1px solid var(--color-border-subtle);
-    background: var(--color-bg-surface);
+    height: 40px;
+    background: var(--color-bg-base);
     flex-shrink: 0;
   }
 
-  .doc-breadcrumb {
-    display: flex;
+  /* Progressive disclosure: word count vive num affordance discreto e
+     só aparece (tooltip) sob hover/foco. Não há header de filename duplicado. */
+  .word-count-info {
+    position: relative;
+    display: inline-flex;
     align-items: center;
-    gap: var(--space-3);
-    font-size: var(--font-size-sm);
-    /* Cliques no texto caem na toolbar (drag region) em vez de virarem alvo próprio */
+    color: var(--color-text-muted);
+    cursor: default;
+  }
+
+  .info-glyph {
+    font-size: var(--font-size-xs);
+    opacity: 0.6;
+    line-height: 1;
+  }
+
+  .word-count-tooltip {
+    position: absolute;
+    top: calc(100% + var(--space-1));
+    right: 0;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    border-radius: 4px;
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.12s ease;
     pointer-events: none;
   }
 
-  .breadcrumb-item {
-    color: var(--color-text-primary);
-    font-weight: 500;
-  }
-
-  .muted {
-    color: var(--color-text-muted);
-    font-style: italic;
-    font-weight: normal;
-  }
-
-  .word-count {
-    color: var(--color-text-muted);
-    font-size: var(--font-size-xs);
+  .word-count-info:hover .word-count-tooltip {
+    opacity: 1;
+    visibility: visible;
   }
 
   .editor-area {

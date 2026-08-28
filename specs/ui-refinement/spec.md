@@ -18,11 +18,12 @@ A tela principal exibe uma quantidade fixa de "chrome" (barras, cabeçalhos, rod
 
 ### 2.1 Sidebars recolhíveis
 
-- A sidebar esquerda e a sidebar direita podem ser **abertas/fechadas independentemente**:
+- A sidebar esquerda e a sidebar direita podem ser **abertas/fechadas independentemente**, em **dois estados** (open/closed — colapsa a 0px):
   - por **atalho de teclado**;
-  - por um **controle discreto** visível apenas quando relevante (borda do app / hover na margem).
+  - por um **controle discreto** visível apenas quando relevante (borda do app / barra fina de reabertura na margem quando fechada).
 - Estado default na abertura do app: **ambas abertas** (comportamento atual preservado).
-- Com uma sidebar fechada, o espaço dela é cedido integralmente ao editor (as colunas do grid colapsam para 0; os resize-handles correspondentes desaparecem).
+- Com uma sidebar fechada, o espaço dela é cedido integralmente ao editor (as colunas do grid colapsam para 0; os resize-handles correspondentes desaparecem do fluxo).
+- Ao fechar completamente, permanece **uma borda mínima reabrível** (hit-target discreto na margem, com tooltip e acesso por teclado) — nunca fica sem forma de reabrir.
 - Com ambas fechadas = **modo foco**: apenas o editor centralizado ocupa a janela.
 
 ### 2.2 Atalhos de teclado (visíveis nas dicas)
@@ -33,13 +34,15 @@ A tela principal exibe uma quantidade fixa de "chrome" (barras, cabeçalhos, rod
 | `Ctrl/Cmd+J` | alternar sidebar de IA (direita) |
 | `Ctrl/Cmd+Shift+F` | modo foco (alterna ambas juntas) |
 
+O **modo foco é uma composição** das duas flags de sidebar — não há estado `focusMode` separado: entrar esconde ambas e **registra o estado anterior** (para restaurar ao sair); sair restaura exatamente o que estava aberto antes. Repetir o atalho em foco sai do foco.
+
 Respeitar o sistema: não capturar quando o foco estiver em um campo de texto já tratado por atalho nativo do editor (o handler global ignora se o target for `contentEditable`/input e a tecla tiver handler próprio do editor — regra: só atalhos com modificador, que não colidem).
 
 ### 2.3 Subtração de chrome morto
 
 - **Sidebar esquerda:** o footer passa a ter apenas o acesso a **Configurações** (ícone discreto). "Memórias" e "Agentes" (inertes) saem da barra permanente. A nav de seções exibe apenas o que tem conteúdo real (Arquivos; Buscar/Tags saem enquanto não implementadas).
-- **Sidebar de IA:** o header mostra o **provider/modelo real** (do estado de config existente) ou apenas o nome da aplicação; o botão "+" de nova conversa ganha função real (limpa a conversa atual) **ou** é removido — decisão: **removido** nesta iteração para não prometer ação não testada.
-- **Banner de contexto do chat** sõ aparece **quando há documento aberto**, e passa a mostrar o nome real do documento ativo (reativo); sem documento, não ocupa espaço nenhum.
+- **Sidebar de IA:** o header mostra o **provider/modelo real** (via `messagesStore.conversation.modelUsed`, quando disponível) ou apenas o nome da aplicação; o botão "+" de nova conversa ganha função real (limpa a conversa atual) **ou** é removido — decisão: **removido** nesta iteração para não prometer ação não testada.
+- **Banner de contexto do chat** sõ aparece **quando há contexto real na conversa da IA**, e passa a mostrar o nome real do documento ativo **da conversa** (reativo, via `messagesStore.conversation.documentId`); sem contexto, o banner não ocupa espaço (ou mostra "Sem contexto" de forma compacta e semanticamente correta, sem faixa vazia permanente).
 
 ### 2.4 Separações visuais mais leves
 
@@ -49,6 +52,7 @@ Respeitar o sistema: não capturar quando o foco estiver em um campo de texto j�
 ### 2.5 Editor como palco
 
 - A hierarquia de paddings do editor é preservada; com as duas sidebars fechadas, o `max-width` de leitura (760px) permanece (linhas não esticam demais).
+- O **word count** deixa de ser permanente: sai da toolbar fixa e passa a aparecer **sob demanda** (popover discreto no hover de um affordance de info na toolbar do editor), sem remover a capacidade.
 - Nenhuma mudança de cor/tema/tipografia de conteúdo — apenas densidade e visibilidade de chrome.
 
 ### 2.6 Limpeza acoplada (pequena, justificada pelo research)
@@ -64,7 +68,7 @@ Respeitar o sistema: não capturar quando o foco estiver em um campo de texto j�
 2. **Alternância da IA:** `Ctrl/Cmd+J` abre/fecha a direita; a conversa em andamento (mensagens) não é destruída ao fechar e reabrir.
 3. **Modo foco:** `Ctrl/Cmd+Shift+F` esconde ambas; o editor ocupa toda a janela com o mesmo conteúdo; repetir o atalho restaura o layout anterior (esquerda+direita abertas).
 4. **Sem chrome morto:** os botões sem ação ("Memórias", "Agentes", "+" da conversa) não aparecem mais; "Modelo" exibido corresponde à configuração real ou o header é simplificado.
-5. **Banner contextual:** aberto um documento → o chat mostra "Contexto: <nome do arquivo>"; fechado o documento → o banner some (sem deixar faixa vazia).
+5. **Banner contextual:** quando a conversa da IA tem um documento em contexto → o chat mostra o nome real daquele documento; sem contexto → banner ausente (sem faixa vazia) ou "Sem contexto" compacto.
 6. **Separação única:** entre sidebar e editor existe **uma só** linha de separação visual por lado, que reage no hover/drag; nada de borda dupla.
 7. **Drag das larguras continua funcionando** quando a respectiva sidebar está aberta; não deve ser possível "arrastar" um handle de painel fechado.
 8. **Nenhuma regressão de conteúdo:** criar documento, editar (inline title Cenários A/B continuam funcionando), autosave, enviar mensagem de chat — todos continuam operando.
