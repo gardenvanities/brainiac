@@ -1,0 +1,47 @@
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer base {
+  html,
+  body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: var(--color-bg-base);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+
+  ::-webkit-scrollbar {
+    width: var(--scrollbar-width, 6px);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-default);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-border-strong);
+  }
+
+  ::selection {
+    background: var(--color-accent-primary-subtle);
+    color: var(--color-text-primary);
+  }
+}

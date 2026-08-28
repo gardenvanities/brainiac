@@ -1,0 +1,48 @@
+@layer tokens {
+  :root {
+    /* ============================================================
+       TRANSIÇÃO — legacy.css
+       1. Aliases de cor: os nomes antigos agora apontam para os
+          tokens semânticos novos. Nenhum valor próprio — quando
+          um componente for migrado para --color-*, o alias some.
+       2. Tokens de tipografia/espaçamento/painéis ainda não
+          migrados para a estrutura primitives/semantic.
+       ============================================================ */
+
+    /* Aliases de cor — componentes ainda não migrados */
+    --bg-base: var(--color-bg-base);
+    --bg-surface: var(--color-bg-surface);
+    --bg-elevated: var(--color-bg-elevated);
+    --bg-hover: var(--color-bg-hover);
+    --border: var(--color-border-default);
+    --border-focus: var(--color-border-focus);
+    --text-primary: var(--color-text-primary);
+    --text-secondary: var(--color-text-secondary);
+    --text-muted: var(--color-text-muted);
+    --accent: var(--color-accent-primary);
+    --accent-hover: var(--color-accent-primary-hover);
+    --accent-subtle: var(--color-accent-primary-subtle);
+
+    /* Tipografia (migrar para primitives/semantic depois) */
+    --font-sans: "Geist", system-ui, -apple-system, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, monospace;
+    --font-size-xs: 11px;
+    --font-size-sm: 12px;
+    --font-size-base: 13px;
+    --font-size-md: 14px;
+
+    /* Espaçamento (migrar para primitives depois) */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+
+    /* Painéis (migrar para semantic depois) */
+    --sidebar-left-width: 260px;
+    --sidebar-right-width: 340px;
+    --resize-handle-width: 4px;
+    --scrollbar-width: 6px;
+  }
+}
