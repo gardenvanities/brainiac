@@ -58,7 +58,7 @@ $effect(() => {
     align-items: center;
     justify-content: center;
     height: 100%;
-    color: var(--text-muted);
+    color: var(--color-text-muted);
     font-size: var(--font-size-sm);
     font-style: italic;
     text-align: center;

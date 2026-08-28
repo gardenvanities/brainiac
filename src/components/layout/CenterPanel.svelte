@@ -25,7 +25,7 @@ import Editor from "../editor/Editor.svelte";
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: var(--bg-base);
+    background: var(--color-bg-base);
     overflow: hidden;
   }
 
@@ -34,8 +34,8 @@ import Editor from "../editor/Editor.svelte";
     align-items: center;
     padding: 0 var(--space-4);
     height: 48px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg-surface);
+    border-bottom: 1px solid var(--color-border-default);
+    background: var(--color-bg-surface);
     flex-shrink: 0;
   }
 
@@ -47,18 +47,18 @@ import Editor from "../editor/Editor.svelte";
   }
 
   .breadcrumb-item {
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     font-weight: 500;
   }
 
   .muted {
-    color: var(--text-muted);
+    color: var(--color-text-muted);
     font-style: italic;
     font-weight: normal;
   }
 
   .word-count {
-    color: var(--text-muted);
+    color: var(--color-text-muted);
     font-size: var(--font-size-xs);
   }
 

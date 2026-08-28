@@ -70,7 +70,7 @@ function stopDrag() {
     height: 100vh;
     width: 100vw;
     overflow: hidden;
-    background: var(--bg-base);
+    background: var(--color-bg-base);
   }
 
   .no-select {
@@ -79,7 +79,7 @@ function stopDrag() {
   }
 
   .resize-handle {
-    background: var(--border);
+    background: var(--color-border-default);
     cursor: col-resize;
     transition: background 0.15s ease;
     z-index: 10;
@@ -87,6 +87,6 @@ function stopDrag() {
 
   .resize-handle:hover,
   .resize-handle.active {
-    background: var(--accent);
+    background: var(--color-accent-primary);
   }
 </style>

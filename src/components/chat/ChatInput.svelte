@@ -3,10 +3,6 @@ import { saveApiKey } from "../../lib/tauri/messages";
 import { documentsStore } from "../../stores/documents.store.svelte";
 import { messagesStore } from "../../stores/messages.store.svelte";
 
-$effect(() => {
-  console.log("hasApiKey:", messagesStore.hasApiKey);
-});
-
 let message = $state("");
 let apiKeyInput = $state("");
 let showApiKeyForm = $state(false);
@@ -87,7 +83,7 @@ function handleKeydown(e: KeyboardEvent) {
 <style>
   .input-area {
     padding: var(--space-3);
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-border-default);
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
@@ -98,17 +94,17 @@ function handleKeydown(e: KeyboardEvent) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--accent-subtle);
-    border: 1px solid rgba(124, 106, 247, 0.2);
+    background: var(--color-accent-primary-subtle);
+    border: 1px solid color-mix(in oklch, var(--color-accent-primary) 20%, transparent);
     border-radius: 6px;
     padding: var(--space-2) var(--space-3);
     font-size: var(--font-size-xs);
-    color: var(--accent);
+    color: var(--color-accent-primary);
     gap: var(--space-2);
   }
 
   .setup-banner button {
-    background: var(--accent);
+    background: var(--color-accent-primary);
     border: none;
     border-radius: 3px;
     color: white;
@@ -127,10 +123,10 @@ function handleKeydown(e: KeyboardEvent) {
 
   .api-key-form input {
     flex: 1;
-    background: var(--bg-elevated);
-    border: 1px solid var(--accent);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-accent-primary);
     border-radius: 4px;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     font-size: var(--font-size-sm);
     padding: var(--space-1) var(--space-2);
     outline: none;
@@ -138,7 +134,7 @@ function handleKeydown(e: KeyboardEvent) {
   }
 
   .api-key-form button {
-    background: var(--accent);
+    background: var(--color-accent-primary);
     border: none;
     border-radius: 4px;
     color: white;
@@ -150,25 +146,25 @@ function handleKeydown(e: KeyboardEvent) {
 
   .api-key-form button.cancel {
     background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-secondary);
   }
 
   .error-banner {
-    background: rgba(255, 100, 100, 0.1);
-    border: 1px solid rgba(255, 100, 100, 0.2);
+    background: var(--color-danger-subtle);
+    border: 1px solid color-mix(in oklch, var(--color-danger) 20%, transparent);
     border-radius: 4px;
     padding: var(--space-2) var(--space-3);
     font-size: var(--font-size-xs);
-    color: #ff8080;
+    color: var(--color-danger);
   }
 
   .message-input {
     width: 100%;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
     border-radius: 6px;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     font-size: var(--font-size-sm);
     font-family: var(--font-sans);
     padding: var(--space-3);
@@ -179,7 +175,7 @@ function handleKeydown(e: KeyboardEvent) {
   }
 
   .message-input:focus {
-    border-color: var(--accent);
+    border-color: var(--color-accent-primary);
   }
 
   .message-input:disabled {
@@ -188,7 +184,7 @@ function handleKeydown(e: KeyboardEvent) {
   }
 
   .message-input::placeholder {
-    color: var(--text-muted);
+    color: var(--color-text-muted);
   }
 
   .input-footer {
@@ -199,14 +195,14 @@ function handleKeydown(e: KeyboardEvent) {
 
   .hint {
     font-size: var(--font-size-xs);
-    color: var(--text-muted);
+    color: var(--color-text-muted);
   }
 
   .send-btn {
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
     border-radius: 4px;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     cursor: pointer;
     font-size: var(--font-size-sm);
     padding: var(--space-1) var(--space-4);
@@ -214,8 +210,8 @@ function handleKeydown(e: KeyboardEvent) {
   }
 
   .send-btn.active {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--color-accent-primary);
+    border-color: var(--color-accent-primary);
     color: white;
   }
 

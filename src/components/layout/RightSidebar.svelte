@@ -42,8 +42,8 @@ onMount(() => {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: var(--bg-surface);
-    border-left: 1px solid var(--border);
+    background: var(--color-bg-surface);
+    border-left: 1px solid var(--color-border-default);
     overflow: hidden;
   }
 
@@ -53,7 +53,7 @@ onMount(() => {
     justify-content: space-between;
     padding: 0 var(--space-3);
     height: 48px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-border-default);
     flex-shrink: 0;
   }
 
@@ -67,7 +67,7 @@ onMount(() => {
     width: 28px;
     height: 28px;
     border-radius: 6px;
-    background: var(--accent);
+    background: var(--color-accent-primary);
     color: white;
     display: flex;
     align-items: center;
@@ -86,19 +86,19 @@ onMount(() => {
   .agent-name {
     font-size: var(--font-size-sm);
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
   }
 
   .agent-model {
     font-size: var(--font-size-xs);
-    color: var(--text-muted);
+    color: var(--color-text-muted);
     font-family: var(--font-mono);
   }
 
   .icon-btn {
     background: transparent;
     border: none;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     cursor: pointer;
     padding: var(--space-1) var(--space-2);
     border-radius: 4px;
@@ -107,19 +107,19 @@ onMount(() => {
   }
 
   .icon-btn:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
+    background: var(--color-bg-hover);
+    color: var(--color-text-primary);
   }
 
   .context-banner {
     padding: var(--space-2) var(--space-3);
-    background: var(--bg-elevated);
-    border-bottom: 1px solid var(--border);
+    background: var(--color-bg-elevated);
+    border-bottom: 1px solid var(--color-border-default);
     flex-shrink: 0;
   }
 
   .context-label {
     font-size: var(--font-size-xs);
-    color: var(--text-muted);
+    color: var(--color-text-muted);
   }
 </style>

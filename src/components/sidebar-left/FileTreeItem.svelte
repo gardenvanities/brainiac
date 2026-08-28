@@ -26,7 +26,7 @@ function open() {
     background: transparent;
     border: none;
     border-radius: 4px;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     cursor: pointer;
     font-size: var(--font-size-sm);
     text-align: left;
@@ -34,13 +34,13 @@ function open() {
   }
 
   .file-item:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
+    background: var(--color-bg-hover);
+    color: var(--color-text-primary);
   }
 
   .file-item.active {
-    background: var(--accent-subtle);
-    color: var(--accent);
+    background: var(--color-accent-primary-subtle);
+    color: var(--color-accent-primary);
   }
 
   .file-icon {

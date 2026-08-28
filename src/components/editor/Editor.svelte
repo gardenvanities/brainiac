@@ -102,7 +102,7 @@ $effect(() => {
 
   :global(.milkdown) {
     background: transparent !important;
-    color: var(--text-primary) !important;
+    color: var(--color-text-primary) !important;
     font-family: var(--font-sans) !important;
     font-size: var(--font-size-md) !important;
     max-width: 760px;
@@ -113,11 +113,11 @@ $effect(() => {
 
   :global(.milkdown .ProseMirror) {
     outline: none;
-    caret-color: var(--accent);
+    caret-color: var(--color-accent-primary);
   }
 
   :global(.milkdown p) {
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     line-height: 1.7;
   }
 
@@ -125,12 +125,12 @@ $effect(() => {
   :global(.milkdown h2),
   :global(.milkdown h3),
   :global(.milkdown h4) {
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     line-height: 1.3;
   }
 
   :global(.milkdown code) {
-    background: var(--bg-elevated);
+    background: var(--color-bg-elevated);
     border-radius: 3px;
     font-family: var(--font-mono);
     font-size: var(--font-size-sm);
@@ -138,16 +138,16 @@ $effect(() => {
   }
 
   :global(.milkdown pre) {
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
     border-radius: 6px;
     padding: var(--space-4);
   }
 
   :global(.milkdown blockquote) {
-    border-left: 3px solid var(--accent);
+    border-left: 3px solid var(--color-accent-primary);
     padding-left: var(--space-4);
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
   }
 
   .editor-placeholder {
@@ -157,7 +157,7 @@ $effect(() => {
     justify-content: center;
     height: 100%;
     gap: var(--space-3);
-    color: var(--text-muted);
+    color: var(--color-text-muted);
   }
 
   .placeholder-icon {

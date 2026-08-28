@@ -153,14 +153,14 @@ $effect(() => {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: var(--bg-surface);
+    background: var(--color-bg-surface);
     overflow: hidden;
-    border-right: 1px solid var(--border);
+    border-right: 1px solid var(--color-border-default);
   }
 
   .sidebar-header {
     padding: var(--space-4);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-border-default);
     display: flex;
     align-items: center;
     height: 48px;
@@ -169,7 +169,7 @@ $effect(() => {
   .logo {
     font-size: var(--font-size-sm);
     font-weight: 600;
-    color: var(--accent);
+    color: var(--color-accent-primary);
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -179,7 +179,7 @@ $effect(() => {
     flex-direction: row;
     padding: var(--space-2);
     gap: var(--space-1);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-border-default);
   }
 
   .nav-item {
@@ -191,20 +191,20 @@ $effect(() => {
     background: transparent;
     border: none;
     border-radius: 4px;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     cursor: pointer;
     font-size: var(--font-size-md);
     transition: all 0.15s ease;
   }
 
   .nav-item:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
+    background: var(--color-bg-hover);
+    color: var(--color-text-primary);
   }
 
   .nav-item.active {
-    background: var(--accent-subtle);
-    color: var(--accent);
+    background: var(--color-accent-primary-subtle);
+    color: var(--color-accent-primary);
   }
 
   .sidebar-content {
@@ -224,7 +224,7 @@ $effect(() => {
   .section-title {
     font-size: var(--font-size-xs);
     font-weight: 600;
-    color: var(--text-muted);
+    color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
@@ -232,7 +232,7 @@ $effect(() => {
   .icon-btn {
     background: transparent;
     border: none;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     cursor: pointer;
     padding: 2px 6px;
     border-radius: 3px;
@@ -241,8 +241,8 @@ $effect(() => {
   }
 
   .icon-btn:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
+    background: var(--color-bg-hover);
+    color: var(--color-text-primary);
   }
 
   .new-doc-input {
@@ -252,10 +252,10 @@ $effect(() => {
 
   .new-doc-input input {
     width: 100%;
-    background: var(--bg-elevated);
-    border: 1px solid var(--accent);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-accent-primary);
     border-radius: 4px;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     font-size: var(--font-size-sm);
     padding: var(--space-2) var(--space-3);
     outline: none;
@@ -263,10 +263,10 @@ $effect(() => {
 
   .search-input {
     width: 100%;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
     border-radius: 4px;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     font-size: var(--font-size-sm);
     padding: var(--space-2) var(--space-3);
     outline: none;
@@ -274,12 +274,12 @@ $effect(() => {
   }
 
   .search-input:focus {
-    border-color: var(--accent);
+    border-color: var(--color-accent-primary);
   }
 
   .placeholder-item {
     padding: var(--space-2);
-    color: var(--text-muted);
+    color: var(--color-text-muted);
     font-size: var(--font-size-sm);
     font-style: italic;
   }
@@ -288,7 +288,7 @@ $effect(() => {
     display: flex;
     flex-direction: column;
     padding: var(--space-2);
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-border-default);
     gap: 2px;
   }
 
@@ -300,7 +300,7 @@ $effect(() => {
     background: transparent;
     border: none;
     border-radius: 4px;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     cursor: pointer;
     font-size: var(--font-size-sm);
     text-align: left;
@@ -308,8 +308,8 @@ $effect(() => {
   }
 
   .footer-btn:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
+    background: var(--color-bg-hover);
+    color: var(--color-text-primary);
   }
 
   .modal-backdrop {
@@ -324,8 +324,8 @@ $effect(() => {
   }
 
   .modal {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
     border-radius: 8px;
     max-width: 560px;
     width: 100%;
@@ -340,21 +340,21 @@ $effect(() => {
     align-items: center;
     justify-content: space-between;
     padding: var(--space-3) var(--space-4);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--color-border-default);
     flex-shrink: 0;
   }
 
   .modal-title {
     font-size: var(--font-size-sm);
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
   }
 
   .modal-close {
     background: transparent;
     border: none;
     border-radius: 4px;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     cursor: pointer;
     font-size: var(--font-size-sm);
     padding: var(--space-1) var(--space-2);
@@ -362,8 +362,8 @@ $effect(() => {
   }
 
   .modal-close:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
+    background: var(--color-bg-hover);
+    color: var(--color-text-primary);
   }
 
   .modal-body {

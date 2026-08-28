@@ -182,7 +182,7 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   h2 {
     font-size: var(--font-size-sm);
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     margin: 0 0 var(--space-2) 0;
   }
 
@@ -194,10 +194,10 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .preset-btn {
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
     border-radius: 4px;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     cursor: pointer;
     font-size: var(--font-size-xs);
     padding: var(--space-1) var(--space-2);
@@ -205,8 +205,8 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .preset-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--color-accent-primary);
+    color: var(--color-accent-primary);
   }
 
   .form {
@@ -216,10 +216,10 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .form input {
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
     border-radius: 4px;
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     font-size: var(--font-size-sm);
     padding: var(--space-2) var(--space-3);
     outline: none;
@@ -227,16 +227,16 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .form input:focus {
-    border-color: var(--accent);
+    border-color: var(--color-accent-primary);
   }
 
   .form input::placeholder {
-    color: var(--text-muted);
+    color: var(--color-text-muted);
   }
 
   .add-btn {
     align-self: flex-start;
-    background: var(--accent);
+    background: var(--color-accent-primary);
     border: none;
     border-radius: 4px;
     color: white;
@@ -262,15 +262,15 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .empty {
-    color: var(--text-muted);
+    color: var(--color-text-muted);
     font-size: var(--font-size-xs);
     font-style: italic;
     margin: 0;
   }
 
   .provider-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-default);
     border-radius: 6px;
     margin-bottom: var(--space-2);
     padding: var(--space-3);
@@ -291,13 +291,13 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .provider-name {
-    color: var(--text-primary);
+    color: var(--color-text-primary);
     font-size: var(--font-size-sm);
     font-weight: 600;
   }
 
   .provider-url {
-    color: var(--text-muted);
+    color: var(--color-text-muted);
     font-family: var(--font-mono);
     font-size: var(--font-size-xs);
     overflow: hidden;
@@ -306,10 +306,10 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .fetch-btn {
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
     border-radius: 4px;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     cursor: pointer;
     flex-shrink: 0;
     font-size: var(--font-size-xs);
@@ -318,8 +318,8 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .fetch-btn:hover:not(:disabled) {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--color-accent-primary);
+    color: var(--color-accent-primary);
   }
 
   .fetch-btn:disabled {
@@ -336,10 +336,10 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
 
   .model-btn {
     align-items: center;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
     border-radius: 4px;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     cursor: pointer;
     display: inline-flex;
     font-size: var(--font-size-xs);
@@ -349,18 +349,18 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .model-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--color-accent-primary);
+    color: var(--color-accent-primary);
   }
 
   .model-btn.default {
-    background: var(--accent-subtle);
-    border-color: var(--accent);
-    color: var(--accent);
+    background: var(--color-accent-primary-subtle);
+    border-color: var(--color-accent-primary);
+    color: var(--color-accent-primary);
   }
 
   .default-badge {
-    background: var(--accent);
+    background: var(--color-accent-primary);
     border-radius: 3px;
     color: white;
     font-size: 9px;
