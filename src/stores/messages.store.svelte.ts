@@ -14,7 +14,6 @@ class MessagesStore {
 
   async checkApiKey() {
     const key = await getApiKey();
-    console.log("checkApiKey chamado, key:", key ? "encontrada" : "não encontrada");
     this.hasApiKey = !!key;
   }
 
