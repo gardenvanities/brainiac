@@ -1,0 +1,45 @@
+@layer tokens {
+  :root {
+    /* Fundos */
+    --color-bg-base: var(--gray-0);
+    --color-bg-surface: var(--gray-50);
+    --color-bg-elevated: var(--gray-100);
+    --color-bg-hover: var(--gray-150);
+    --color-bg-active: var(--gray-200);
+
+    /* Bordas */
+    --color-border-subtle: var(--gray-150);
+    --color-border-default: var(--gray-200);
+    --color-border-strong: var(--gray-300);
+    --color-border-focus: var(--green-500);
+
+    /* Texto */
+    --color-text-primary: var(--gray-800);
+    --color-text-secondary: var(--gray-700);
+    --color-text-muted: var(--gray-600);
+    --color-text-disabled: var(--gray-500);
+
+    /* Accent primário — verde */
+    --color-accent-primary: var(--green-500);
+    --color-accent-primary-hover: color-mix(in oklch, var(--green-500) 85%, white);
+    --color-accent-primary-active: color-mix(in oklch, var(--green-500) 70%, black);
+    --color-accent-primary-subtle: color-mix(in oklch, var(--green-500) 15%, transparent);
+
+    /* Accent secundário — rosa magenta */
+    --color-accent-secondary: var(--pink-500);
+    --color-accent-secondary-hover: color-mix(in oklch, var(--pink-500) 85%, white);
+    --color-accent-secondary-subtle: color-mix(in oklch, var(--pink-500) 15%, transparent);
+
+    /* Estados de sistema */
+    --color-danger: var(--red-500);
+    --color-danger-subtle: color-mix(in oklch, var(--red-500) 15%, transparent);
+    --color-warning: var(--amber-500);
+    --color-warning-subtle: color-mix(in oklch, var(--amber-500) 15%, transparent);
+    --color-success: var(--green-500);
+
+    /* Sombra/elevação — dark mode usa luminosidade, não shadow pesado */
+    --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.4);
+    --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.5);
+    --shadow-glow-accent: 0 0 24px color-mix(in oklch, var(--green-500) 30%, transparent);
+  }
+}
