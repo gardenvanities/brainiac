@@ -17,7 +17,7 @@ onMount(() => {
 </script>
 
 <aside class="right-sidebar">
-  <div class="sidebar-header">
+  <div class="sidebar-header" data-tauri-drag-region>
     <div class="agent-info">
       <div class="agent-avatar">B</div>
       <div class="agent-meta">
@@ -61,6 +61,8 @@ onMount(() => {
     display: flex;
     align-items: center;
     gap: var(--space-2);
+    /* Cliques no texto/avatar caem no header (drag region); o .icon-btn continua clicável */
+    pointer-events: none;
   }
 
   .agent-avatar {

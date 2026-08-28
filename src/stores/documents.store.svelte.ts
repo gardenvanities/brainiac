@@ -1,4 +1,11 @@
-import { createDocument, getDocument, getDocuments, saveDocument } from "../lib/tauri/documents";
+import {
+  createDocument,
+  getDocument,
+  getDocuments,
+  renameDocument,
+  saveDocument,
+} from "../lib/tauri/documents";
+import { upsertDocument } from "../lib/utils/documents";
 import type {
   CreateDocumentPayload,
   Document,
@@ -76,6 +83,47 @@ class DocumentsStore {
       this.error = String(e);
     } finally {
       this.saving = false;
+    }
+  }
+
+  // Cenário A — renomeia o arquivo físico e o nó da sidebar.
+  // Update cirúrgico: substitui apenas o nó do id; `active` é recriado
+  // com o MESMO id (o `$effect` do Editor não recria o Milkdown).
+  // Retorna false em conflito/erro — `error` fica populado para a UI.
+  async rename(id: string, newName: string): Promise<boolean> {
+    this.error = null;
+    try {
+      const updated = await renameDocument({ id, newName });
+      this.list = upsertDocument(this.list, updated);
+      if (this.active?.id === id) {
+        this.active = { ...this.active, ...updated };
+      }
+      return true;
+    } catch (e) {
+      this.error = String(e);
+      return false;
+    }
+  }
+
+  // Cenário B — atualiza o `title:` do frontmatter sem tocar na sidebar
+  // (path não muda). Persiste via save_document com `title`.
+  async updateTitle(id: string, title: string): Promise<boolean> {
+    this.error = null;
+    try {
+      const payload: SaveDocumentPayload = {
+        id,
+        content: this.currentContent,
+        title,
+      };
+      const updated = await saveDocument(payload);
+      this.list = upsertDocument(this.list, updated);
+      if (this.active?.id === id) {
+        this.active = { ...this.active, ...updated };
+      }
+      return true;
+    } catch (e) {
+      this.error = String(e);
+      return false;
     }
   }
 }

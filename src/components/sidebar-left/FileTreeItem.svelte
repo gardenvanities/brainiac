@@ -1,4 +1,5 @@
 <script lang="ts">
+import { fileDisplayName } from "../../lib/utils/documents";
 import { documentsStore } from "../../stores/documents.store.svelte";
 import type { Document } from "../../types";
 
@@ -13,7 +14,7 @@ function open() {
 
 <button class="file-item" class:active={isActive} onclick={open}>
   <span class="file-icon">✦</span>
-  <span class="file-title">{doc.title}</span>
+  <span class="file-title">{fileDisplayName(doc.path)}</span>
 </button>
 
 <style>

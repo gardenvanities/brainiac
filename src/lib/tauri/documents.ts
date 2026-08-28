@@ -3,11 +3,16 @@ import type {
   CreateDocumentPayload,
   Document,
   DocumentWithContent,
+  RenameDocumentPayload,
   SaveDocumentPayload,
 } from "../../types";
 
 export async function createDocument(payload: CreateDocumentPayload): Promise<Document> {
   return invoke("create_document", { payload });
+}
+
+export async function renameDocument(payload: RenameDocumentPayload): Promise<Document> {
+  return invoke("rename_document", { payload });
 }
 
 export async function getDocuments(): Promise<Document[]> {

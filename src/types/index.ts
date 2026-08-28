@@ -5,6 +5,7 @@ export type {
   CreateDocumentPayload,
   Document,
   DocumentWithContent,
+  RenameDocumentPayload,
   SaveDocumentPayload,
 } from "./document";
 export type { Memory, MemoryCategory } from "./memory";

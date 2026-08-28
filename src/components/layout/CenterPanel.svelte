@@ -1,13 +1,15 @@
 <script lang="ts">
+import { fileDisplayName } from "../../lib/utils/documents";
 import { documentsStore } from "../../stores/documents.store.svelte";
 import Editor from "../editor/Editor.svelte";
+import InlineTitle from "../editor/InlineTitle.svelte";
 </script>
 
 <main class="center-panel">
-  <div class="panel-toolbar">
+  <div class="panel-toolbar" data-tauri-drag-region>
     <div class="doc-breadcrumb">
       {#if documentsStore.active}
-        <span class="breadcrumb-item">{documentsStore.active.title}</span>
+        <span class="breadcrumb-item">{fileDisplayName(documentsStore.active.path)}</span>
         <span class="word-count">{documentsStore.active.word_count} palavras</span>
       {:else}
         <span class="breadcrumb-item muted">Selecione um documento</span>
@@ -16,6 +18,7 @@ import Editor from "../editor/Editor.svelte";
   </div>
 
   <div class="editor-area">
+    <InlineTitle />
     <Editor />
   </div>
 </main>
@@ -44,6 +47,8 @@ import Editor from "../editor/Editor.svelte";
     align-items: center;
     gap: var(--space-3);
     font-size: var(--font-size-sm);
+    /* Cliques no texto caem na toolbar (drag region) em vez de virarem alvo próprio */
+    pointer-events: none;
   }
 
   .breadcrumb-item {
@@ -65,5 +70,7 @@ import Editor from "../editor/Editor.svelte";
   .editor-area {
     flex: 1;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 </style>

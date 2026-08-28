@@ -38,7 +38,7 @@ $effect(() => {
 </script>
 
 <aside class="left-sidebar">
-  <div class="sidebar-header">
+  <div class="sidebar-header" data-tauri-drag-region>
     <span class="logo">⬡ BRAINIAC</span>
   </div>
 
@@ -172,6 +172,8 @@ $effect(() => {
     color: var(--color-accent-primary);
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    /* Cliques no texto caem no header (drag region) em vez de virarem alvo próprio */
+    pointer-events: none;
   }
 
   .sidebar-nav {
