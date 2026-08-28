@@ -10,6 +10,9 @@
     /* Tipografia (migrar para primitives/semantic depois) */
     --font-sans: "Geist", system-ui, -apple-system, sans-serif;
     --font-mono: "Geist Mono", ui-monospace, monospace;
+    /* Fonte de título do editor — espelha --crepe-font-title do tema frame
+       do Milkdown para o Inline Title compartilhar a hierarquia do H1 */
+    --font-title: "Noto Serif", Cambria, "Times New Roman", Times, serif;
     --font-size-xs: 11px;
     --font-size-sm: 12px;
     --font-size-base: 13px;

@@ -1,7 +1,6 @@
 <script lang="ts">
 import { documentsStore } from "../../stores/documents.store.svelte";
 import Editor from "../editor/Editor.svelte";
-import InlineTitle from "../editor/InlineTitle.svelte";
 </script>
 
 <main class="center-panel">
@@ -17,7 +16,6 @@ import InlineTitle from "../editor/InlineTitle.svelte";
   </div>
 
   <div class="editor-area">
-    <InlineTitle />
     <Editor />
   </div>
 </main>

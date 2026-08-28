@@ -25,14 +25,18 @@ fn resolve_files_dir(app: &AppHandle) -> Result<PathBuf, AppError> {
 
 // ---------- lógica pura / testável ----------
 
-/// Normaliza o nome informado no título inline: strip de `.md`,
-/// espaço → `_`, rejeita vazio/`.`, `..` e separadores de caminho.
+/// Normaliza o nome informado no título inline para o FILENAME: strip de
+/// `.md`, rejeita vazio/`.`, `..` e separadores de caminho.
+///
+/// Espaços, acentos e Unicode são PRESERVADOS — o filesystem local os
+/// aceita e o título exibido ao usuário não deve carregar artefatos de
+/// sanitização (ex.: `Minha_Nota`). A camada de exibição nunca aplica esta
+/// função: ela é específica da persistência (title ≠ filename).
 pub fn normalize_document_name(raw: &str) -> Result<String, AppError> {
     let mut name = raw.trim().to_string();
     if let Some(stem) = name.strip_suffix(".md") {
         name = stem.trim().to_string();
     }
-    let name = name.replace(' ', "_");
     if name.is_empty() || name == "." || name == ".." || name.contains('/') || name.contains('\\')
     {
         return Err(AppError::Validation(
@@ -97,7 +101,21 @@ pub async fn rename_document_impl(
     filesystem::documents::rename_file(&doc.path, &target_str)?;
 
     let now = Utc::now().to_rfc3339();
-    queries::documents::update_path_and_title(conn, id, &target_str, &name, &now).await?;
+    if let Err(e) = queries::documents::update_path_and_title(conn, id, &target_str, &name, &now).await {
+        // O arquivo JÁ foi renomeado no disco. Sem rollback, o banco
+        // apontaria para o caminho antigo (inexistente) e o documento
+        // ficaria inacessível. Restaura o nome físico original e propaga
+        // o erro — o estado local permanece consistente com o disco.
+        let restored = filesystem::documents::rename_file(&target_str, &doc.path);
+        if restored.is_err() {
+            return Err(AppError::Internal(format!(
+                "Rename falhou no banco e o rollback do arquivo também: {}. Erro original: {}",
+                restored.unwrap_err(),
+                e
+            )));
+        }
+        return Err(e);
+    }
 
     queries::documents::get_by_id(conn, id)
         .await?
@@ -198,13 +216,25 @@ mod tests {
     // ---------- normalize_document_name ----------
 
     #[test]
-    fn normaliza_espacos_para_underscore() {
-        assert_eq!(normalize_document_name("Minha Nota").unwrap(), "Minha_Nota");
+    fn preserva_espacos_no_nome() {
+        assert_eq!(normalize_document_name("Minha Nota").unwrap(), "Minha Nota");
+        assert_eq!(
+            normalize_document_name("Minha Nota Importante").unwrap(),
+            "Minha Nota Importante"
+        );
+    }
+
+    #[test]
+    fn preserva_acentos_e_unicode() {
+        assert_eq!(normalize_document_name("Introdução à IA").unwrap(), "Introdução à IA");
+        assert_eq!(normalize_document_name("Cérebro & Conhecimento").unwrap(), "Cérebro & Conhecimento");
+        assert_eq!(normalize_document_name("2026 — Ideias").unwrap(), "2026 — Ideias");
     }
 
     #[test]
     fn remove_sufixo_md() {
         assert_eq!(normalize_document_name("nota.md").unwrap(), "nota");
+        assert_eq!(normalize_document_name("Minha Nota.md").unwrap(), "Minha Nota");
     }
 
     #[test]
@@ -231,10 +261,22 @@ mod tests {
 
         let doc = rename_document_impl(&conn, &dir, "id-1", "Novo Nome").await.unwrap();
 
-        assert!(dir.join("Novo_Nome.md").exists());
+        assert!(dir.join("Novo Nome.md").exists());
         assert!(!dir.join("antigo.md").exists());
-        assert_eq!(doc.path, dir.join("Novo_Nome.md").to_string_lossy());
-        assert_eq!(doc.title, "Novo_Nome");
+        assert_eq!(doc.path, dir.join("Novo Nome.md").to_string_lossy());
+        assert_eq!(doc.title, "Novo Nome");
+    }
+
+    #[tokio::test]
+    async fn rename_preserva_conteudo_do_arquivo() {
+        let conn = test_conn().await;
+        let dir = temp_files_dir();
+        insert_disk_doc(&conn, &dir, "id-1", "antigo", "# Meu conteúdo\n\nTexto da nota...").await;
+
+        let doc = rename_document_impl(&conn, &dir, "id-1", "Minha Nova Nota").await.unwrap();
+
+        let on_disk = std::fs::read_to_string(&doc.path).unwrap();
+        assert_eq!(on_disk, "# Meu conteúdo\n\nTexto da nota...");
     }
 
     #[tokio::test]
@@ -355,8 +397,11 @@ pub async fn create_document(
     state: State<'_, DbState>,
     payload: CreateDocumentPayload,
 ) -> Result<Document, AppError> {
+    // Mesma convenção do rename: o título vira filename pela camada de
+    // persistência (validação + strip de .md; espaços preservados).
+    let name = normalize_document_name(&payload.title)?;
     let files_dir = resolve_files_dir(&app)?;
-    let file_path = files_dir.join(format!("{}.md", payload.title.replace(' ', "_")));
+    let file_path = files_dir.join(format!("{name}.md"));
     let path_str = file_path.to_string_lossy().to_string();
 
     filesystem::documents::write_file(&path_str, "")?;
@@ -372,7 +417,7 @@ pub async fn create_document(
     let doc = Document {
         id,
         path: path_str,
-        title: payload.title,
+        title: name,
         frontmatter,
         word_count: 0,
         is_deleted: false,

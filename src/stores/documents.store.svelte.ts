@@ -86,18 +86,37 @@ class DocumentsStore {
     }
   }
 
+  // Atualização CIRÚRGICA dos metadados de `active`: muta apenas os campos
+  // que a operação alterou — NUNCA substitui o objeto. Substituir o objeto
+  // (`this.active = { ...this.active, ...updated }`) re-executa o `$effect`
+  // do Editor (que rastreia o campo `active`), destruindo o Milkdown e
+  // recriando-o com `active.content` — o snapshot da ABERTURA, obsoleto
+  // após o primeiro autosave. Era a causa raiz do "conteúdo some ao
+  // renomear". Renomear não pode reconstruir o documento.
+  //
+  // Deliberadamente NÃO toca em `content`: a fonte viva do conteúdo é
+  // `currentContent` (atualizada pelo editor); `active.content` é o
+  // snapshot carregado em `open()` e só muda quando um documento é aberto.
+  #applyMetaToActive(updated: Document): void {
+    if (!this.active || this.active.id !== updated.id) return;
+    this.active.path = updated.path;
+    this.active.title = updated.title;
+    this.active.frontmatter = updated.frontmatter;
+    this.active.word_count = updated.word_count;
+    this.active.updated_at = updated.updated_at;
+  }
+
   // Cenário A — renomeia o arquivo físico e o nó da sidebar.
-  // Update cirúrgico: substitui apenas o nó do id; `active` é recriado
-  // com o MESMO id (o `$effect` do Editor não recria o Milkdown).
+  // Update cirúrgico: substitui apenas o nó do id na lista; `active` tem
+  // APENAS os metadados mutados (o `$effect` do Editor não recria o
+  // Milkdown — o documento continua aberto, intacto).
   // Retorna false em conflito/erro — `error` fica populado para a UI.
   async rename(id: string, newName: string): Promise<boolean> {
     this.error = null;
     try {
       const updated = await renameDocument({ id, newName });
       this.list = upsertDocument(this.list, updated);
-      if (this.active?.id === id) {
-        this.active = { ...this.active, ...updated };
-      }
+      this.#applyMetaToActive(updated);
       return true;
     } catch (e) {
       this.error = String(e);
@@ -117,9 +136,7 @@ class DocumentsStore {
       };
       const updated = await saveDocument(payload);
       this.list = upsertDocument(this.list, updated);
-      if (this.active?.id === id) {
-        this.active = { ...this.active, ...updated };
-      }
+      this.#applyMetaToActive(updated);
       return true;
     } catch (e) {
       this.error = String(e);

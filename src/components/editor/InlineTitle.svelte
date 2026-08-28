@@ -29,7 +29,10 @@ function cancel() {
 }
 
 async function confirm() {
-  if (confirming || !doc) return;
+  // `!editing`: o unmount do input (Escape/cancelamento) dispara blur —
+  // sem esta guarda, o blur re-confirma o valor cancelado e ressuscita
+  // o erro que cancel() acabou de limpar.
+  if (!editing || confirming || !doc) return;
   const next = value.trim();
   if (!next || next === displayTitle) {
     cancel();
@@ -57,6 +60,7 @@ function onKeydown(e: KeyboardEvent) {
 {#if doc}
   <div class="inline-title">
     {#if editing}
+      <!-- Mesma tipografia do h1 exibido: a troca não causa salto visual -->
       <input
         bind:this={inputEl}
         bind:value
@@ -70,62 +74,81 @@ function onKeydown(e: KeyboardEvent) {
         <p class="error" role="alert">{documentsStore.error}</p>
       {/if}
     {:else}
-      <h1 ondblclick={startEditing} title="Duplo clique para renomear">{displayTitle}</h1>
-      <button class="edit-btn" onclick={startEditing} aria-label="Renomear documento">✎</button>
+      <h1>
+        <!-- Botão semântico: clicar no título inicia a edição (o nome é a
+             affordance — sem botão de lápis extra). Teclado: Tab + Enter. -->
+        <button class="title-button" onclick={startEditing} title="Clique para editar o título">
+          {displayTitle}
+        </button>
+      </h1>
+      {#if documentsStore.error}
+        <p class="error" role="alert">{documentsStore.error}</p>
+      {/if}
     {/if}
   </div>
 {/if}
 
 <style>
   .inline-title {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-5) 0;
-    min-height: 32px;
+    /* Ocupa a mesma largura do corpo do documento (o pai .doc-surface
+       define a largura útil) — o título é o primeiro bloco do documento,
+       não uma barra acima dele. */
+    min-width: 0;
   }
 
+  /*
+   * Hierarquia visual de H1 — espelha `.milkdown .ProseMirror h1`
+   * (crepe frame, theme/common/reset.css): fonte serifada de título,
+   * 2.625em, peso 400, line-height 1.1905, padding-block 2px.
+   * O pai `.doc-surface` usa --font-size-md, a mesma base do .milkdown.
+   */
   h1 {
     margin: 0;
-    font-size: var(--font-size-md);
-    font-weight: 600;
+    padding-block: 2px;
+    font-family: var(--font-title);
+    font-size: 2.625em;
+    font-weight: 400;
+    line-height: 1.1905;
     color: var(--color-text-primary);
-    cursor: default;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: break-word;
   }
 
-  .edit-btn {
+  .title-button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: none;
     border: none;
-    background: transparent;
-    color: var(--color-text-muted);
-    cursor: pointer;
-    font-size: var(--font-size-sm);
-    padding: var(--space-1);
-    line-height: 1;
-    opacity: 0;
-    transition: opacity 0.15s ease, color 0.15s ease;
+    font: inherit;
+    color: inherit;
+    text-align: start;
+    cursor: text;
+    border-radius: 3px;
+    transition: color 0.15s ease;
   }
 
-  .inline-title:hover .edit-btn {
-    opacity: 1;
+  .title-button:hover {
+    color: var(--color-text-secondary);
   }
 
-  .edit-btn:hover {
-    color: var(--color-accent-primary);
+  .title-button:focus-visible {
+    outline: 1px solid var(--color-accent-primary);
+    outline-offset: 2px;
   }
 
   .title-input {
     width: 100%;
-    max-width: 420px;
-    padding: var(--space-1) var(--space-2);
-    background: var(--color-bg-elevated);
-    border: 1px solid var(--color-border-focus);
-    border-radius: 4px;
+    padding: 2px 0;
+    background: none;
+    border: none;
+    border-block-end: 1px solid var(--color-accent-primary);
+    border-radius: 0;
+    font-family: var(--font-title);
+    font-size: 2.625em;
+    font-weight: 400;
+    line-height: 1.1905;
     color: var(--color-text-primary);
-    font-size: var(--font-size-md);
-    font-family: var(--font-sans);
+    caret-color: var(--color-accent-primary);
     outline: none;
   }
 

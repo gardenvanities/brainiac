@@ -4,6 +4,7 @@ import { untrack } from "svelte";
 import "@milkdown/crepe/theme/common/style.css";
 import "@milkdown/crepe/theme/frame.css";
 import { documentsStore } from "../../stores/documents.store.svelte";
+import InlineTitle from "./InlineTitle.svelte";
 
 let editorRef = $state<HTMLDivElement | null>(null);
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
@@ -76,7 +77,15 @@ $effect(() => {
 
 <div class="editor-wrapper">
   {#if documentsStore.active}
-    <div class="editor-container" bind:this={editorRef}></div>
+    <div class="editor-container">
+      <!-- Superfície do documento: título inline + conteúdo compartilham
+           a mesma largura, padding e fluxo vertical — o título rola junto
+           com o texto, como primeiro elemento do documento. -->
+      <div class="doc-surface">
+        <InlineTitle />
+        <div class="editor-mount" bind:this={editorRef}></div>
+      </div>
+    </div>
   {:else}
     <div class="editor-placeholder">
       <p>Selecione ou crie um documento para começar</p>
@@ -99,15 +108,23 @@ $effect(() => {
     height: 100%;
   }
 
+  /* Superfície do documento: mesma largura/alinhamento que o corpo do
+     Milkdown usava (max-width 760px centrado, padding do tema) — título e
+     conteúdo dividem o espaço e rolam juntos. */
+  .doc-surface {
+    max-width: 760px;
+    margin-inline: auto;
+    padding-block: var(--space-6);
+    padding-inline: var(--space-4);
+    min-height: 100%;
+    font-size: var(--font-size-md);
+  }
+
   :global(.milkdown) {
     background: transparent !important;
     color: var(--color-text-primary) !important;
     font-family: var(--font-sans) !important;
     font-size: var(--font-size-md) !important;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: var(--space-6) var(--space-4);
-    min-height: 100%;
   }
 
   :global(.milkdown .ProseMirror) {
