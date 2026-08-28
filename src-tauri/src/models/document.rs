@@ -28,9 +28,18 @@ pub struct CreateDocumentPayload {
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SaveDocumentPayload {
     pub id: String,
     pub content: String,
+    pub title: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RenameDocumentPayload {
+    pub id: String,
+    pub new_name: String,
 }
 
 #[derive(Debug, Deserialize)]

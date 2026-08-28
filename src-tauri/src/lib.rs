@@ -47,6 +47,7 @@ pub fn run() {
             commands::documents::get_documents,
             commands::documents::get_document,
             commands::documents::save_document,
+            commands::documents::rename_document,
             commands::documents::delete_document,
             // Config
             commands::config::get_config,
