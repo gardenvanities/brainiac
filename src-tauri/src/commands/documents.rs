@@ -106,15 +106,14 @@ pub async fn rename_document_impl(
         // apontaria para o caminho antigo (inexistente) e o documento
         // ficaria inacessível. Restaura o nome físico original e propaga
         // o erro — o estado local permanece consistente com o disco.
-        let restored = filesystem::documents::rename_file(&target_str, &doc.path);
-        if restored.is_err() {
-            return Err(AppError::Internal(format!(
-                "Rename falhou no banco e o rollback do arquivo também: {}. Erro original: {}",
-                restored.unwrap_err(),
-                e
-            )));
+        match filesystem::documents::rename_file(&target_str, &doc.path) {
+            Ok(()) => return Err(e),
+            Err(rb) => {
+                return Err(AppError::Internal(format!(
+                    "Rename falhou no banco e o rollback do arquivo também: {rb}. Erro original: {e}"
+                )));
+            }
         }
-        return Err(e);
     }
 
     queries::documents::get_by_id(conn, id)
