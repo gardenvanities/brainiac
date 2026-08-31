@@ -64,10 +64,10 @@ A feature **Inline Title** resolve isso: o título editável na área de ediçã
 
 ## Critérios de aceite
 
-- [ ] Título inline mostra `title:` do frontmatter quando existe; senão, nome do arquivo sem extensão
-- [ ] Painel lateral sempre mostra o nome físico do arquivo (basename de `path`), nunca o frontmatter title
-- [ ] Cenário A: arquivo renomeado no disco + nó atualizado instantaneamente + seleção/foco preservados
-- [ ] Cenário B: frontmatter atualizado, nome físico intocado, sidebar intocada
-- [ ] Conflito de nome: ação bloqueada, erro "Já existe um arquivo com este nome" exibido, título inline revertido, estado consistente
-- [ ] Toda lógica de negócio (resolução de título, detecção de conflito, rename) implementada via TDD (`tdd-workflow`)
-- [ ] `bun run check` e `cargo check` passam (DoD)
+- [x] Título inline mostra `title:` do frontmatter quando existe; senão, nome do arquivo sem extensão
+- [x] Painel lateral sempre mostra o nome físico do arquivo (basename de `path`), nunca o frontmatter title
+- [x] Cenário A: arquivo renomeado no disco + nó atualizado instantaneamente + seleção/foco preservados
+- [x] Cenário B: frontmatter atualizado, nome físico intocado, sidebar intocada
+- [x] Conflito de nome: ação bloqueada, erro "Já existe um arquivo com este nome" exibido, título inline revertido, estado consistente
+- [x] Toda lógica de negócio (resolução de título, detecção de conflito, rename) implementada via TDD (`tdd-workflow`)
+- [x] `bun run check` e `cargo check` passam (DoD)
