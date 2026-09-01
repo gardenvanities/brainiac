@@ -39,5 +39,32 @@
     /* Feature settings */
     --font-feature-ui: "rlig" 1, "calt" 1;
     --font-feature-code: "liga" 1, "calt" 1, "ss01" 1;
+
+    /* Medida de leitura — largura ideal de linha para legibilidade */
+    --prose-measure: 42rem;
+    --prose-measure-narrow: 34rem;
+
+    /* Escala de heading — mapeada para uso direto em h1-h6 do editor */
+    --prose-h1-size: var(--font-size-3xl);
+    --prose-h2-size: var(--font-size-2xl);
+    --prose-h3-size: var(--font-size-xl);
+    --prose-h4-size: var(--font-size-lg);
+    --prose-h5-size: var(--font-size-md);
+    --prose-h6-size: var(--font-size-base);
+
+    /* Ritmo vertical — espaçamento entre blocos de prosa */
+    --prose-space-tight: var(--space-2);
+    --prose-space-base: var(--space-4);
+    --prose-space-loose: var(--space-8);
+
+    /* Espaçamento específico antes/depois de heading (assimétrico —
+       mais espaço antes que depois, cria agrupamento visual com o
+       conteúdo que segue) */
+    --prose-heading-margin-top: var(--space-8);
+    --prose-heading-margin-bottom: var(--space-3);
+
+    /* Indentação de listas e blockquote */
+    --prose-indent: var(--space-6);
+    --prose-blockquote-border-width: 3px;
   }
 }
