@@ -123,13 +123,13 @@ $effect(() => {
   :global(.milkdown) {
     background: transparent !important;
     color: var(--color-text-primary) !important;
-    font-family: var(--font-ui) !important;
+    font-family: var(--font-body) !important;
     font-size: var(--font-size-md) !important;
   }
 
   :global(.milkdown .ProseMirror) {
     outline: none;
-    caret-color: var(--color-accent-primary);
+    caret-color: var(--color-interactive);
   }
 
   :global(.milkdown p) {
@@ -148,7 +148,8 @@ $effect(() => {
   :global(.milkdown code) {
     background: var(--color-bg-elevated);
     border-radius: 3px;
-    font-family: var(--font-body);
+    font-family: var(--font-code);
+    font-feature-settings: var(--font-feature-code);
     font-size: var(--font-size-sm);
     padding: 1px 4px;
   }
@@ -157,11 +158,13 @@ $effect(() => {
     background: var(--color-bg-elevated);
     border: 1px solid var(--color-border-default);
     border-radius: 6px;
+    font-family: var(--font-code);
+    font-feature-settings: var(--font-feature-code);
     padding: var(--space-4);
   }
 
   :global(.milkdown blockquote) {
-    border-left: 3px solid var(--color-accent-primary);
+    border-left: 3px solid var(--color-interactive);
     padding-left: var(--space-4);
     color: var(--color-text-secondary);
   }

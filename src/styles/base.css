@@ -9,6 +9,10 @@
 }
 
 @layer base {
+  html {
+    font-size: var(--font-size-base);
+  }
+
   html,
   body {
     height: 100%;
@@ -17,7 +21,6 @@
     background: var(--color-bg-base);
     color: var(--color-text-primary);
     font-family: var(--font-body);
-    font-size: var(--font-size-base);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-base);
     font-optical-sizing: auto;
@@ -60,7 +63,7 @@
   }
 
   ::selection {
-    background: var(--color-accent-primary-subtle);
+    background: var(--color-interactive-subtle);
     color: var(--color-text-primary);
   }
 }

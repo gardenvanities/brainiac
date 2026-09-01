@@ -205,8 +205,8 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .preset-btn:hover {
-    border-color: var(--color-accent-primary);
-    color: var(--color-accent-primary);
+    border-color: var(--color-interactive);
+    color: var(--color-interactive);
   }
 
   .form {
@@ -227,7 +227,7 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .form input:focus {
-    border-color: var(--color-accent-primary);
+    border-color: var(--color-interactive);
   }
 
   .form input::placeholder {
@@ -236,7 +236,7 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
 
   .add-btn {
     align-self: flex-start;
-    background: var(--color-accent-primary);
+    background: var(--color-interactive);
     border: none;
     border-radius: 4px;
     color: white;
@@ -318,8 +318,8 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .fetch-btn:hover:not(:disabled) {
-    border-color: var(--color-accent-primary);
-    color: var(--color-accent-primary);
+    border-color: var(--color-interactive);
+    color: var(--color-interactive);
   }
 
   .fetch-btn:disabled {
@@ -349,18 +349,18 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
   }
 
   .model-btn:hover {
-    border-color: var(--color-accent-primary);
-    color: var(--color-accent-primary);
+    border-color: var(--color-interactive);
+    color: var(--color-interactive);
   }
 
   .model-btn.default {
-    background: var(--color-accent-primary-subtle);
-    border-color: var(--color-accent-primary);
-    color: var(--color-accent-primary);
+    background: var(--color-interactive-subtle);
+    border-color: var(--color-interactive);
+    color: var(--color-interactive);
   }
 
   .default-badge {
-    background: var(--color-accent-primary);
+    background: var(--color-interactive);
     border-radius: 3px;
     color: white;
     font-size: 9px;

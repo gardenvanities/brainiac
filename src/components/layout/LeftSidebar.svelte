@@ -152,7 +152,7 @@ $effect(() => {
 
   .logo {
     font-size: var(--font-size-md);
-    color: var(--color-accent-primary);
+    color: var(--color-interactive);
     /* Cliques no texto caem no header (drag region) em vez de virarem alvo próprio */
     pointer-events: none;
   }
@@ -203,7 +203,7 @@ $effect(() => {
   .new-doc-input input {
     width: 100%;
     background: var(--color-bg-elevated);
-    border: 1px solid var(--color-accent-primary);
+    border: 1px solid var(--color-interactive);
     border-radius: 4px;
     color: var(--color-text-primary);
     font-size: var(--font-size-sm);

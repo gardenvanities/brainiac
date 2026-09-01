@@ -94,17 +94,17 @@ function handleKeydown(e: KeyboardEvent) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--color-accent-primary-subtle);
-    border: 1px solid color-mix(in oklch, var(--color-accent-primary) 20%, transparent);
+    background: var(--color-interactive-subtle);
+    border: 1px solid color-mix(in oklch, var(--color-interactive) 20%, transparent);
     border-radius: 6px;
     padding: var(--space-2) var(--space-3);
     font-size: var(--font-size-xs);
-    color: var(--color-accent-primary);
+    color: var(--color-interactive);
     gap: var(--space-2);
   }
 
   .setup-banner button {
-    background: var(--color-accent-primary);
+    background: var(--color-interactive);
     border: none;
     border-radius: 3px;
     color: white;
@@ -124,7 +124,7 @@ function handleKeydown(e: KeyboardEvent) {
   .api-key-form input {
     flex: 1;
     background: var(--color-bg-elevated);
-    border: 1px solid var(--color-accent-primary);
+    border: 1px solid var(--color-interactive);
     border-radius: 4px;
     color: var(--color-text-primary);
     font-size: var(--font-size-sm);
@@ -134,7 +134,7 @@ function handleKeydown(e: KeyboardEvent) {
   }
 
   .api-key-form button {
-    background: var(--color-accent-primary);
+    background: var(--color-interactive);
     border: none;
     border-radius: 4px;
     color: white;
@@ -166,7 +166,7 @@ function handleKeydown(e: KeyboardEvent) {
     border-radius: 6px;
     color: var(--color-text-primary);
     font-size: var(--font-size-sm);
-    font-family: var(--font-ui);
+    font-family: var(--font-body);
     padding: var(--space-3);
     resize: none;
     outline: none;
@@ -175,7 +175,7 @@ function handleKeydown(e: KeyboardEvent) {
   }
 
   .message-input:focus {
-    border-color: var(--color-accent-primary);
+    border-color: var(--color-interactive);
   }
 
   .message-input:disabled {
@@ -210,8 +210,8 @@ function handleKeydown(e: KeyboardEvent) {
   }
 
   .send-btn.active {
-    background: var(--color-accent-primary);
-    border-color: var(--color-accent-primary);
+    background: var(--color-interactive);
+    border-color: var(--color-interactive);
     color: white;
   }
 

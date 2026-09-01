@@ -40,8 +40,8 @@ function open() {
   }
 
   .file-item.active {
-    background: var(--color-accent-primary-subtle);
-    color: var(--color-accent-primary);
+    background: var(--color-interactive-subtle);
+    color: var(--color-interactive);
   }
 
   .file-icon {

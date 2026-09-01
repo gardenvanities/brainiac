@@ -135,7 +135,7 @@ $effect(() => {
 
   .resize-handle:hover,
   .resize-handle.active {
-    background: var(--color-accent-primary);
+    background: var(--color-interactive);
   }
 
   .resize-handle.rail {

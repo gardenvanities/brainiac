@@ -10,6 +10,17 @@ Esta skill documenta as regras obrigatórias para o schema do banco LibSQL do BR
 
 > **Nota:** Esta skill referencia `AGENTS.md` (fonte da verdade). As migrations ficam em `src-tauri/src/database/migrations/` e são executadas automaticamente em `database/connection.rs`.
 
+## Visão geral do schema
+
+Tabelas atuais: `agents`, `conversations`, `messages`, `memories`, `documents`, `llm_usage_log`, `llm_providers`, `llm_models` (definidas em `database/migrations/0001_initial.sql`).
+
+- Todas as PKs são UUID v4 gravadas como `TEXT`.
+- Timestamps em ISO 8601 (`TEXT`) via `chrono::Utc::now().to_rfc3339()`.
+- Soft delete em entidades principais via `is_deleted`.
+- `documents.frontmatter` é armazenado como JSON string.
+- Agente padrão (seed): `id = '00000000-0000-0000-0000-000000000001'`.
+- Arquivos `.md` dos documentos vivem no filesystem, em `~/.local/share/project.brainiac/files/` (via `AppHandle::path().app_data_dir()`).
+
 ---
 
 ## 1. Toda tabela/índice novo usa `IF NOT EXISTS`

@@ -34,7 +34,7 @@ const content = $derived(message?.content ?? "");
     width: 24px;
     height: 24px;
     border-radius: 5px;
-    background: var(--color-accent-primary);
+    background: var(--color-ai);
     color: white;
     display: flex;
     align-items: center;
@@ -56,9 +56,9 @@ const content = $derived(message?.content ?? "");
   }
 
   .message.user .bubble {
-    background: var(--color-accent-primary-subtle);
+    background: var(--color-interactive-subtle);
     color: var(--color-text-primary);
-    border: 1px solid color-mix(in oklch, var(--color-accent-primary) 20%, transparent);
+    border: 1px solid color-mix(in oklch, var(--color-interactive) 20%, transparent);
   }
 
   .message.assistant .bubble {
@@ -74,7 +74,7 @@ const content = $derived(message?.content ?? "");
   .cursor {
     display: inline-block;
     animation: blink 1s step-end infinite;
-    color: var(--color-accent-primary);
+    color: var(--color-ai);
     margin-left: 2px;
   }
 

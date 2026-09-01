@@ -132,7 +132,7 @@ function onKeydown(e: KeyboardEvent) {
   }
 
   .title-button:focus-visible {
-    outline: 1px solid var(--color-accent-primary);
+    outline: 1px solid var(--color-interactive);
     outline-offset: 2px;
   }
 
@@ -141,14 +141,14 @@ function onKeydown(e: KeyboardEvent) {
     padding: 2px 0;
     background: none;
     border: none;
-    border-block-end: 1px solid var(--color-accent-primary);
+    border-block-end: 1px solid var(--color-interactive);
     border-radius: 0;
     font-family: var(--font-title);
     font-size: 2.625em;
     font-weight: 400;
     line-height: 1.1905;
     color: var(--color-text-primary);
-    caret-color: var(--color-accent-primary);
+    caret-color: var(--color-interactive);
     outline: none;
   }
 
