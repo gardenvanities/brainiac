@@ -6,12 +6,14 @@
     --color-bg-elevated: var(--gray-100);
     --color-bg-hover: var(--gray-150);
     --color-bg-active: var(--gray-200);
+    --color-bg-overlay: oklch(0% 0 0 / 0.6);
+    --blur-backdrop: 12px;
 
     /* Bordas */
     --color-border-subtle: var(--gray-150);
     --color-border-default: var(--gray-200);
     --color-border-strong: var(--gray-300);
-    --color-border-focus: var(--green-500);
+    --color-border-focus: var(--color-interactive);
 
     /* Texto */
     --color-text-primary: var(--gray-800);
@@ -19,27 +21,44 @@
     --color-text-muted: var(--gray-600);
     --color-text-disabled: var(--gray-500);
 
-    /* Accent primário — verde */
-    --color-accent-primary: var(--green-500);
-    --color-accent-primary-hover: color-mix(in oklch, var(--green-500) 85%, white);
-    --color-accent-primary-active: color-mix(in oklch, var(--green-500) 70%, black);
-    --color-accent-primary-subtle: color-mix(in oklch, var(--green-500) 15%, transparent);
+    /* Interativo — azul: botões, foco, links, info */
+    --color-interactive: var(--blue-500);
+    --color-interactive-hover: color-mix(in oklch, var(--blue-500) 85%, white);
+    --color-interactive-active: color-mix(in oklch, var(--blue-500) 70%, black);
+    --color-interactive-subtle: color-mix(in oklch, var(--blue-500) 15%, transparent);
+    --color-interactive-text: var(--blue-600);
 
-    /* Accent secundário — rosa magenta */
-    --color-accent-secondary: var(--pink-500);
-    --color-accent-secondary-hover: color-mix(in oklch, var(--pink-500) 85%, white);
-    --color-accent-secondary-subtle: color-mix(in oklch, var(--pink-500) 15%, transparent);
+    --color-link: var(--color-interactive-text);
+    --color-link-visited: var(--violet-600);
 
-    /* Estados de sistema */
-    --color-danger: var(--red-500);
-    --color-danger-subtle: color-mix(in oklch, var(--red-500) 15%, transparent);
-    --color-warning: var(--amber-500);
-    --color-warning-subtle: color-mix(in oklch, var(--amber-500) 15%, transparent);
+    /* Sucesso — verde */
     --color-success: var(--green-500);
+    --color-success-hover: color-mix(in oklch, var(--green-500) 85%, white);
+    --color-success-subtle: color-mix(in oklch, var(--green-500) 15%, transparent);
+    --color-success-text: var(--green-600);
 
-    /* Sombra/elevação — dark mode usa luminosidade, não shadow pesado */
+    /* Perigo — vermelho */
+    --color-danger: var(--red-500);
+    --color-danger-hover: color-mix(in oklch, var(--red-500) 85%, white);
+    --color-danger-subtle: color-mix(in oklch, var(--red-500) 15%, transparent);
+    --color-danger-text: var(--red-600);
+
+    /* Alerta — âmbar */
+    --color-warning: var(--amber-500);
+    --color-warning-hover: color-mix(in oklch, var(--amber-500) 85%, white);
+    --color-warning-subtle: color-mix(in oklch, var(--amber-500) 15%, transparent);
+    --color-warning-text: var(--amber-600);
+
+    /* IA — violeta: badges de agente, streaming, avatar de persona */
+    --color-ai: var(--violet-500);
+    --color-ai-hover: color-mix(in oklch, var(--violet-500) 85%, white);
+    --color-ai-subtle: color-mix(in oklch, var(--violet-500) 15%, transparent);
+    --color-ai-text: var(--violet-600);
+
+    /* Sombras e glow */
     --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.4);
     --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.5);
-    --shadow-glow-accent: 0 0 24px color-mix(in oklch, var(--green-500) 30%, transparent);
+    --shadow-glow-interactive: 0 0 24px color-mix(in oklch, var(--blue-500) 30%, transparent);
+    --shadow-glow-ai: 0 0 24px color-mix(in oklch, var(--violet-500) 30%, transparent);
   }
 }

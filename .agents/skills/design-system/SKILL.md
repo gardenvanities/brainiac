@@ -17,8 +17,9 @@ disable-model-invocation: false
   reset, tokens, base, components, utilities.
 
 ## Paleta de marca
-- Verde neon (primário): ações principais, estado ativo, foco, marca
-- Rosa magenta neon (secundário): destaques de IA/agente, badges, ênfase
+- Verde neon: sucesso e marca
+- Azul: interativo — botões, foco, links, info
+- Violeta neon: IA/agente — badges, ênfase, link visitado
 - Vermelho: EXCLUSIVO para erro/perigo — nunca usado decorativamente
 - Âmbar: exclusivo para warning/atenção
 
@@ -30,8 +31,10 @@ disable-model-invocation: false
 - Hover/active states são gerados via color-mix(), nunca hardcoded
 
 ## Estrutura de arquivos
-src/styles/tokens/primitives.css  — escalas cruas
+src/styles/tokens/primitives.css  — escalas cruas (cor, espaçamento, radius, movimento)
 src/styles/tokens/semantic.css    — tokens com propósito, o que componentes usam
+src/styles/tokens/typography.css  — tipografia (famílias, pesos, escala em rem)
+src/styles/tokens/legacy.css      — transição: tokens ainda não migrados
 src/styles/base.css                — reset + defaults
 src/styles/layers.css              — ordem dos @layer
 

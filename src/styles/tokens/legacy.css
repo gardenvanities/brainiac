@@ -2,9 +2,10 @@
   :root {
     /* ============================================================
        TRANSIÇÃO — legacy.css
-       Tokens de tipografia/espaçamento/painéis ainda não migrados
-       para a estrutura primitives/semantic. Os aliases de cor foram
-       removidos — os componentes já usam --color-* diretamente.
+       Tokens de tipografia/painéis ainda não migrados para a
+       estrutura primitives/semantic. O espaçamento migrou para
+       primitives.css (em rem) e os aliases de cor foram removidos
+       — os componentes já usam --color-* diretamente.
        ============================================================ */
 
     /* Tipografia (migrar para primitives/semantic depois) */
@@ -17,14 +18,6 @@
     --font-size-sm: 12px;
     --font-size-base: 13px;
     --font-size-md: 14px;
-
-    /* Espaçamento (migrar para primitives depois) */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
 
     /* Painéis (migrar para semantic depois) */
     --sidebar-left-width: 260px;
