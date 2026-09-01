@@ -166,7 +166,7 @@ function handleKeydown(e: KeyboardEvent) {
     border-radius: 6px;
     color: var(--color-text-primary);
     font-size: var(--font-size-sm);
-    font-family: var(--font-sans);
+    font-family: var(--font-ui);
     padding: var(--space-3);
     resize: none;
     outline: none;

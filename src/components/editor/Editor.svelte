@@ -123,7 +123,7 @@ $effect(() => {
   :global(.milkdown) {
     background: transparent !important;
     color: var(--color-text-primary) !important;
-    font-family: var(--font-sans) !important;
+    font-family: var(--font-ui) !important;
     font-size: var(--font-size-md) !important;
   }
 
@@ -148,7 +148,7 @@ $effect(() => {
   :global(.milkdown code) {
     background: var(--color-bg-elevated);
     border-radius: 3px;
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: var(--font-size-sm);
     padding: 1px 4px;
   }

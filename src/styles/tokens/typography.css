@@ -5,6 +5,9 @@
     --font-ui: "Geist", system-ui, -apple-system, sans-serif;
     --font-body: "Geist Mono", ui-monospace, monospace;
     --font-code: "Google Sans Code", "Geist Mono", ui-monospace, monospace;
+    /* Fonte de título do editor — espelha --crepe-font-title do tema frame
+       do Milkdown para o Inline Title compartilhar a hierarquia do H1 */
+    --font-title: "Noto Serif", Cambria, "Times New Roman", Times, serif;
 
     /* Pesos */
     --font-weight-regular: 400;

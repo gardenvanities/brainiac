@@ -298,7 +298,7 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
 
   .provider-url {
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: var(--font-size-xs);
     overflow: hidden;
     text-overflow: ellipsis;

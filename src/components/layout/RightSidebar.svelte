@@ -73,7 +73,7 @@ const modelLabel = $derived(messagesStore.conversation?.modelUsed ?? null);
   .agent-model {
     font-size: var(--font-size-xs);
     color: var(--color-text-muted);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     /* Cliques caem no header (drag region) */
     pointer-events: none;
   }

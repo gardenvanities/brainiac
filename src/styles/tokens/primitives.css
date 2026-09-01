@@ -64,5 +64,11 @@
     --duration-fast: 120ms;
     --duration-base: 180ms;
     --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Layout */
+    --sidebar-left-width: 260px;
+    --sidebar-right-width: 340px;
+    --resize-handle-width: 4px;
+    --scrollbar-width: 6px;
   }
 }
