@@ -2,5 +2,6 @@
 @import "./styles/layers.css";
 @import "./styles/tokens/primitives.css";
 @import "./styles/tokens/semantic.css";
+@import "./styles/tokens/typography.css";
 @import "./styles/tokens/legacy.css"; /* TRANSIÇÃO — remover quando os componentes migrarem */
 @import "./styles/base.css";
