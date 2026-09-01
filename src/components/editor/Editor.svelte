@@ -262,6 +262,128 @@ $effect(() => {
     line-height: var(--line-height-relaxed);
   }
 
+  /* ===== UI de controle do Crepe (não é prosa) =====
+     Seletores reais extraídos do @milkdown/crepe@7.22.1
+     (node_modules/@milkdown/crepe/lib/theme/common/*.css) — não inventados:
+     .milkdown-slash-menu / .milkdown-block-handle (block-edit.css),
+     .milkdown-table-block .cell-handle/.line-handle (table.css),
+     .milkdown-toolbar / .milkdown-link-edit / .milkdown-link-preview
+     (toolbar.css e link-tooltip.css). */
+
+  /* Menu "/" (slash menu) */
+  :global(.milkdown .milkdown-slash-menu) {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    font-family: var(--font-ui);
+    color: var(--color-text-primary);
+  }
+
+  /* Categorias do slash menu (Text/List/Advanced) */
+  :global(.milkdown .milkdown-slash-menu .menu-groups .menu-group h6) {
+    font-family: var(--font-ui);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+  }
+
+  /* Itens do slash menu — hover/ativo (o tema usa classes .hover/.active
+     para navegação por teclado e :hover para mouse) */
+  :global(.milkdown .milkdown-slash-menu .menu-groups .menu-group li.hover),
+  :global(.milkdown .milkdown-slash-menu .menu-groups .menu-group li.active),
+  :global(.milkdown .milkdown-slash-menu .tab-group ul li:hover),
+  :global(.milkdown .milkdown-slash-menu .tab-group ul li.selected) {
+    background: var(--color-bg-hover);
+  }
+
+  /* Block handle (6 pontinhos) — o tema já esconde via [data-show='false'];
+     aqui só deixamos discreto e funcional */
+  :global(.milkdown .milkdown-block-handle .operation-item) {
+    color: var(--color-text-muted);
+    cursor: grab;
+  }
+
+  :global(.milkdown .milkdown-block-handle .operation-item svg) {
+    fill: var(--color-text-muted);
+  }
+
+  :global(.milkdown .milkdown-block-handle .operation-item:hover) {
+    background: var(--color-bg-hover);
+  }
+
+  /* Tabela — controles de linha/coluna */
+  :global(.milkdown .milkdown-table-block .cell-handle) {
+    background-color: var(--color-bg-elevated);
+    box-shadow: var(--shadow-md);
+    font-family: var(--font-ui);
+  }
+
+  :global(.milkdown .milkdown-table-block .cell-handle svg) {
+    fill: var(--color-text-secondary);
+  }
+
+  :global(.milkdown .milkdown-table-block .cell-handle .button-group) {
+    background-color: var(--color-bg-elevated);
+    box-shadow: var(--shadow-md);
+  }
+
+  :global(.milkdown .milkdown-table-block .cell-handle .button-group button:hover) {
+    background-color: var(--color-bg-hover);
+  }
+
+  :global(.milkdown .milkdown-table-block .cell-handle .button-group button:hover svg) {
+    fill: var(--color-interactive);
+  }
+
+  :global(.milkdown .milkdown-table-block .line-handle .add-button) {
+    background-color: var(--color-bg-elevated);
+    box-shadow: var(--shadow-md);
+  }
+
+  :global(.milkdown .milkdown-table-block .line-handle .add-button svg) {
+    fill: var(--color-text-secondary);
+  }
+
+  :global(.milkdown .milkdown-table-block .line-handle .add-button:hover) {
+    background-color: var(--color-bg-hover);
+  }
+
+  /* Menu de seleção/contexto (toolbar) — mesmo padrão visual do slash menu */
+  :global(.milkdown .milkdown-toolbar) {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    font-family: var(--font-ui);
+  }
+
+  :global(.milkdown .milkdown-toolbar .toolbar-item svg) {
+    color: var(--color-text-secondary);
+    fill: var(--color-text-secondary);
+  }
+
+  :global(.milkdown .milkdown-toolbar .toolbar-item:hover),
+  :global(.milkdown .milkdown-toolbar .toolbar-item:active) {
+    background: var(--color-bg-hover);
+  }
+
+  :global(.milkdown .milkdown-toolbar .toolbar-item.active svg) {
+    color: var(--color-interactive);
+    fill: var(--color-interactive);
+  }
+
+  /* Tooltip e edição de link — mesma família visual de controle */
+  :global(.milkdown .milkdown-link-preview > .link-preview),
+  :global(.milkdown .milkdown-link-edit > .link-edit) {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    font-family: var(--font-ui);
+  }
+
   .editor-placeholder {
     display: flex;
     flex-direction: column;
