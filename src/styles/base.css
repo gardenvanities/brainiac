@@ -9,7 +9,16 @@
 }
 
 @layer base {
+  /* Root em 16px: os tokens de typography.css e primitives.css são
+     autorados em rem contra a raiz de referência 16px (comentários px
+     da escala assumem isso). Reduzir a raiz aqui encolhia TODOS os
+     tokens (~19%), gerando os 9px indesejados. O tamanho padrão do
+     texto do app é aplicado no body abaixo. */
   html {
+    font-size: 100%;
+  }
+
+  body {
     font-size: var(--font-size-base);
   }
 

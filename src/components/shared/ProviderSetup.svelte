@@ -363,7 +363,7 @@ async function handleSelectModel(provider: LlmProvider, model: LlmModel) {
     background: var(--color-interactive);
     border-radius: 3px;
     color: white;
-    font-size: 9px;
+    font-size: var(--font-size-xs);
     padding: 1px 4px;
     text-transform: uppercase;
   }
