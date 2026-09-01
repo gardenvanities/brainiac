@@ -120,11 +120,15 @@ $effect(() => {
     font-size: var(--font-size-md);
   }
 
+  /* Base da prosa — background transparente neutraliza o fundo do tema
+     frame do Milkdown (dark mode only); o resto segue skills/editor-typography.md */
   :global(.milkdown) {
     background: transparent !important;
-    color: var(--color-text-primary) !important;
-    font-family: var(--font-body) !important;
-    font-size: var(--font-size-md) !important;
+    max-width: var(--prose-measure);
+    font-family: var(--font-body);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    color: var(--color-text-primary);
   }
 
   :global(.milkdown .ProseMirror) {
@@ -132,41 +136,130 @@ $effect(() => {
     caret-color: var(--color-interactive);
   }
 
-  :global(.milkdown p) {
-    color: var(--color-text-primary);
-    line-height: 1.7;
+  /* Hierarquia de headings: peso E tamanho decrescentes
+     (h1-h2 bold, h3-h4 semibold, h5-h6 medium) */
+  :global(.milkdown h1) {
+    font-family: var(--font-heading);
+    font-size: var(--prose-h1-size);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    margin-top: var(--prose-heading-margin-top);
+    margin-bottom: var(--prose-heading-margin-bottom);
   }
 
-  :global(.milkdown h1),
-  :global(.milkdown h2),
-  :global(.milkdown h3),
+  :global(.milkdown h1:first-child) {
+    margin-top: 0;
+  }
+
+  :global(.milkdown h2) {
+    font-family: var(--font-heading);
+    font-size: var(--prose-h2-size);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    margin-top: var(--prose-heading-margin-top);
+    margin-bottom: var(--prose-heading-margin-bottom);
+  }
+
+  :global(.milkdown h3) {
+    font-family: var(--font-heading);
+    font-size: var(--prose-h3-size);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    margin-top: var(--prose-heading-margin-top);
+    margin-bottom: var(--prose-heading-margin-bottom);
+  }
+
   :global(.milkdown h4) {
-    color: var(--color-text-primary);
-    line-height: 1.3;
+    font-family: var(--font-heading);
+    font-size: var(--prose-h4-size);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    margin-top: var(--prose-heading-margin-top);
+    margin-bottom: var(--prose-heading-margin-bottom);
+  }
+
+  :global(.milkdown h5) {
+    font-family: var(--font-heading);
+    font-size: var(--prose-h5-size);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-tight);
+    margin-top: var(--prose-heading-margin-top);
+    margin-bottom: var(--prose-heading-margin-bottom);
+  }
+
+  :global(.milkdown h6) {
+    font-family: var(--font-heading);
+    font-size: var(--prose-h6-size);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-tight);
+    margin-top: var(--prose-heading-margin-top);
+    margin-bottom: var(--prose-heading-margin-bottom);
+  }
+
+  :global(.milkdown p) {
+    margin-block: var(--prose-space-base);
+  }
+
+  :global(.milkdown ul, .milkdown ol) {
+    padding-inline-start: var(--prose-indent);
+    margin-block: var(--prose-space-base);
+  }
+
+  :global(.milkdown li) {
+    margin-block: var(--prose-space-tight);
+  }
+
+  :global(.milkdown li::marker) {
+    color: var(--color-text-muted);
+  }
+
+  :global(.milkdown blockquote) {
+    border-inline-start: var(--prose-blockquote-border-width) solid var(--color-border-strong);
+    padding-inline-start: var(--space-4);
+    margin-block: var(--prose-space-base);
+    color: var(--color-text-secondary);
+  }
+
+  :global(.milkdown a) {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+  }
+
+  :global(.milkdown a:visited) {
+    color: var(--color-link-visited);
+  }
+
+  :global(.milkdown hr) {
+    border: none;
+    border-top: 1px solid var(--color-border-default);
+    margin-block: var(--prose-space-loose);
   }
 
   :global(.milkdown code) {
-    background: var(--color-bg-elevated);
-    border-radius: 3px;
     font-family: var(--font-code);
     font-feature-settings: var(--font-feature-code);
-    font-size: var(--font-size-sm);
-    padding: 1px 4px;
+    font-size: 0.9em;
+    background: var(--color-bg-elevated);
+    border-radius: var(--radius-sm);
+    padding: 0.15em 0.4em;
   }
 
   :global(.milkdown pre) {
     background: var(--color-bg-elevated);
     border: 1px solid var(--color-border-default);
-    border-radius: 6px;
-    font-family: var(--font-code);
-    font-feature-settings: var(--font-feature-code);
+    border-radius: var(--radius-md);
     padding: var(--space-4);
+    margin-block: var(--prose-space-base);
+    overflow-x: auto;
   }
 
-  :global(.milkdown blockquote) {
-    border-left: 3px solid var(--color-interactive);
-    padding-left: var(--space-4);
-    color: var(--color-text-secondary);
+  :global(.milkdown pre code) {
+    background: transparent;
+    padding: 0;
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-relaxed);
   }
 
   .editor-placeholder {
