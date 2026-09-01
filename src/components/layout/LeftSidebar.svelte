@@ -1,4 +1,5 @@
 <script lang="ts">
+import { Plus, Settings } from "@jis3r/icons";
 import { onMount } from "svelte";
 import { documentsStore } from "../../stores/documents.store.svelte";
 import ProviderSetup from "../shared/ProviderSetup.svelte";
@@ -7,6 +8,10 @@ import FileTreeItem from "../sidebar-left/FileTreeItem.svelte";
 let creatingDoc = $state(false);
 let newDocTitle = $state("");
 let showSettings = $state(false);
+
+// Estado por botão: só o ícone sob o cursor anima
+let isNewDocHovered = $state(false);
+let isSettingsHovered = $state(false);
 
 onMount(() => {
   documentsStore.loadList();
@@ -60,8 +65,13 @@ $effect(() => {
     <button
       class="icon-btn"
       title="Novo documento"
+      aria-label="Novo documento"
       onclick={() => (creatingDoc = true)}
-    >+</button>
+      onmouseenter={() => (isNewDocHovered = true)}
+      onmouseleave={() => (isNewDocHovered = false)}
+    >
+      <Plus size={16} animate={isNewDocHovered} color="var(--color-text-secondary)" />
+    </button>
   </div>
 
   <div class="sidebar-content">
@@ -95,8 +105,14 @@ $effect(() => {
   </div>
 
   <div class="sidebar-footer">
-    <button class="footer-btn" onclick={() => (showSettings = !showSettings)}>
-      ⚙ Configurações
+    <button
+      class="footer-btn"
+      onclick={() => (showSettings = !showSettings)}
+      onmouseenter={() => (isSettingsHovered = true)}
+      onmouseleave={() => (isSettingsHovered = false)}
+    >
+      <Settings size={14} animate={isSettingsHovered} color="var(--color-text-secondary)" />
+      Configurações
     </button>
   </div>
 </aside>
@@ -165,6 +181,9 @@ $effect(() => {
     padding: 2px 6px;
     border-radius: 3px;
     font-size: var(--font-size-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.15s ease;
   }
 
