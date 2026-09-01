@@ -73,6 +73,14 @@ Nenhuma feature ou alteração arquitetural é implementada sem que documentos `
 
 ---
 
+## 6.1. Regra inegociável: Governança de Regras
+
+- Mudanças em AGENTS.md ou em qualquer skills/*.md seguem obrigatoriamente 
+  o processo descrito em skills/rule-governance.md — nunca editadas 
+  como efeito colateral de outra tarefa.
+
+---
+
 ## 7. Regra: Reuse Before Create
 
 > Antes de criar qualquer componente, store, utility, command, query, model, abstraction ou mecanismo novo, procure primeiro uma implementação existente que possa ser reutilizada ou estendida.
